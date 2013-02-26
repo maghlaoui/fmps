@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Réseau préscolaire</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Libellé</th>
+            <td>{{ entity.libelleReseauPrescolaire }}</td>
+        </tr>
+        <tr>
+            <th>Partenariat</th>
+            <td>{{ entity.partenariat }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('reseauprescolaire') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('reseauprescolaire_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('reseauprescolaire_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

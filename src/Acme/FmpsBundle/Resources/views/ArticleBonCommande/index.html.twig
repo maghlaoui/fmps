@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des articles des bons de commande</h3>
+<div class="pull-right">
+	<a href="{{ path('articleboncommande_new') }}">
+    <span><i class="icon-plus-sign icon-white"></i> Ajouter un article</span>
+  </a>
+</div>
+
+<form action="{{ path('articleboncommande') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.article) }}</td>
+            <td>{{ form_label(form.bonCommande) }}</td>
+            <td>{{ form_label(form.user) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.article) }}</td>
+            <td>{{ form_widget(form.bonCommande) }}</td>
+            <td>{{ form_widget(form.user) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if not entities|length  %}
+    <div class="flash notice">Désolé. Aucun article n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Article</th>
+            <th>Bon de commande</th>
+            <th>Prix unitaire</th>
+            <th>Quantité</th>
+            <th>Ajouté par</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('article_show', { 'id': entity.articleId }) }}">{{ entity.article }}</a></td>
+            <td><a href="{{ path('boncommande_show', { 'id': entity.bonCommandeId }) }}">{{ entity.bonCommande }}</a></td>
+            <td align="right">{{ entity.prixUnitaire|number_format(2, '.', ' ') }}</td>
+            <td>{{ entity.quantite }}</td>
+            <td>{{ entity.user }}</td>
+            <td>
+               <ul>
+                    <li><a href="{{ path('articleboncommande_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('articleboncommande_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

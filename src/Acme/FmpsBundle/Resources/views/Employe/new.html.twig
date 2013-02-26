@@ -1,0 +1,146 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter un employé</h1>
+
+<form action="{{ path('employe_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+     	{{ form_row(form._token) }} 
+    <div>
+		    {{ form_label(form.matricule) }}
+		    {{ form_widget(form.matricule) }}
+		    {{ form_errors(form.matricule) }}
+		    <span id="ajaxMatricule"  ></span>
+				<script type="text/javascript">
+				        $(function() {
+				         $('input#{{ form.matricule.get('id') }}').keyup(function(){
+				          var a=$('input#{{ form.matricule.get('id') }}').val();
+				if(a.length>=3){
+				           $.ajax({
+				            type:"POST",
+				             url:"{{ path('employe_ajaxmatricule') }}",
+				              data: { query: a },
+				               dataType:'json',
+				                success:function(result){
+				                 if(result){
+				                  $('#ajaxMatricule').empty().append('<img src="{{ asset('bundles/acmefmps/images/cross.png')}}"/>');
+				                   $('#valider').hide();
+				                    }else{
+				                     $('#ajaxMatricule').empty().append('<img src="{{ asset('bundles/acmefmps/images/checked.gif')}}"/>');
+				                      $('#valider').show();}
+				                       if (a==""){$('#ajaxMatricule').empty(); }
+				                        }});}})});
+				                         </script>
+		</div>
+		
+		<div>
+		    {{ form_label(form.nom) }}
+		    {{ form_widget(form.nom) }}
+		    {{ form_errors(form.nom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.prenom) }}
+		    {{ form_widget(form.prenom) }}
+		    {{ form_errors(form.prenom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.tel) }}
+		    {{ form_widget(form.tel) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.flote) }}
+		    {{ form_widget(form.flote) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.cin) }}
+		    {{ form_widget(form.cin) }}
+		    {{ form_errors(form.cin) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.cnss) }}
+		    {{ form_widget(form.cnss) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.rib) }}
+		    {{ form_widget(form.rib) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.adresse) }}
+		    {{ form_widget(form.adresse) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.dateNaissance) }}
+		    {{ form_widget(form.dateNaissance) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.superieur) }}
+		    {{ form_widget(form.superieur) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.ecole) }}
+		    {{ form_widget(form.ecole) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.dateAffectation) }}
+		    {{ form_widget(form.dateAffectation) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.fonction) }}
+		    {{ form_widget(form.fonction) }}
+		    <a href="#content-div" class="fancybox"><span class="new">Ajouter une fonction</span></a>
+		</div>
+		
+		<div>
+		    {{ form_label(form.dateFonction) }}
+		    {{ form_widget(form.dateFonction) }}
+		</div>
+	
+		<div>
+		    {{ form_label(form.fichier) }}
+		    {{ form_widget(form.fichier) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.roles) }}
+		    {{ form_widget(form.roles) }}
+		</div>
+	
+    <p>
+        <button type="submit">Ajouter</button>
+    </p>
+    <p class="required_notes">Les champs indiqués par un astérisque sont obligatoires.</p>
+</form>
+
+<div id="content-div" style="display: none">
+	<h1>Ajouter une fonction</h1>
+  <div class="flash error invisible" id="ajax_error"></div>
+	<form action="{{ path('fonction_create') }}" class="ajax_form" method="post" {{ form_enctype(fonction_form) }}>
+    {{ form_widget(fonction_form) }}
+    <input type="hidden" name="dom_id" value="employe_type_fonction" />
+    <p>
+        <button type="submit" id="ajax_submit">Créer</button>
+    </p>
+		
+	</form>
+
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('employe') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

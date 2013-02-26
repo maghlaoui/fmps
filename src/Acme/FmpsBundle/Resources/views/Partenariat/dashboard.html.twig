@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Tableau de bord des partenariats</h3>
+
+<form action="{{ path('partenariatpartenaire') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    <table id="search">
+        <tr>
+            <td>Partenariat</td>
+            <td>Partenaire</td>
+            <td>Type d'engagement</td>
+            <td>Périodicité</td>
+            <td>Montant</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.partenariat) }}</td>
+            <td>{{ form_widget(form.partenaire) }}</td>
+            <td>{{ form_widget(form.type_engagement) }}</td>
+            <td>{{ form_widget(form.type_contribution) }}</td>
+            <td>{{ form_widget(form.montantParticipation) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun partenaire n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Partenariat', 'p.partenariatId')|raw }}</th>
+            <th>{{ entities.sortable('Date de début', 'p.partenariatId')|raw }}</th>
+            <th>{{ entities.sortable('Date de fin', 'p.partenariatId')|raw }}</th>
+            <th>{{ entities.sortable('Partenaire', 'p.partenaireId')|raw }}</th>
+            <th>{{ entities.sortable("Type d'engagement", 'p.typeEngagementId')|raw }}</th>
+            <th>{{ entities.sortable('Montant de participation', 'p.montantParticipation')|raw }}</th>
+            <th>Montant reçu</th>
+            <th>Date de réception</th>
+            <th>Reliquat à reçevoir</th>
+        </tr>
+    </thead>
+    <tbody>
+	{% set sum_participation = 0 %}
+	{% set sum_recu = 0 %}
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('partenariat_show', { 'id': entity.partenariatId }) }}">{{ entity.partenariat }}</a></td>
+            <td>{% if entity.partenariat.datePatenariat %}{{ entity.partenariat.datePatenariat|date('d-m-Y') }}{% endif%}</td>
+            <td>{% if entity.partenariat.dateFinPartenariat %}{{ entity.partenariat.dateFinPartenariat|date('d-m-Y') }}{% endif%}</td>
+            <td><a href="{{ path('partenaire_show', { 'id': entity.partenaireId }) }}">{{ entity.partenaire }}</a></td>
+            <td><a href="{{ path('typeengagement_show', { 'id': entity.typeEngagementId }) }}">{{ entity.typeEngagement }}</a></td>
+            <td align="right">{{ entity.montantParticipation|number_format(2, '.', ' ') }}</td>
+			{% set sum_participation = sum_participation + entity.montantParticipation %}
+			{% set montant = 0 %}
+			{% set column1 = '' %}
+			{% set column2 = '' %}
+			{% for contribution in entity.SuivisArgent %}
+			  {% set column1 = column1 ~ '<li>' ~ contribution.montant|number_format(2, '.', ' ') ~ '<li>' %}
+			  {% set column2 = column2 ~ '<li>' ~ contribution.dateReception|date('d-m-Y') ~ '<li>' %}
+			  {% set sum_recu = sum_recu + contribution.montant %}
+			  {% set montant = montant + contribution.montant %}
+			{% endfor %}
+            <td align="right"><ul class="contributions">{{ column1|raw }}</ul></td>
+            <td><ul class="contributions">{{ column2|raw }}</ul></td>
+			<td align="right" class="fred">{{ (entity.montantParticipation - montant)|number_format(2, '.', ' ') }}</td>
+        </tr>
+    {% endfor %}
+		<tr class="bold">
+			<td colspan="5" align="right">Totaux</td>
+			<td align="right">{{sum_participation|number_format(2, '.', ' ')}}</td>
+			<td align="right">{{sum_recu|number_format(2, '.', ' ')}}</td>
+			<td></td>
+			<td align="right">{{(sum_participation - sum_recu)|number_format(2, '.', ' ')}}</td>
+		</tr>
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

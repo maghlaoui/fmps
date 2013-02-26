@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Information du demandeur</h3>
+
+<form action="{{ path('titeur_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+</form>
+
+{% endblock %}

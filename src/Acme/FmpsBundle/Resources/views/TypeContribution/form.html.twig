@@ -1,0 +1,8 @@
+<h3>Ajouter une périodicité</h3>
+
+<form action="{{ path('typecontribution_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+</form>

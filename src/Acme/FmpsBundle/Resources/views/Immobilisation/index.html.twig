@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Suivi des immobilisations</h3>
+<div class="pull-right">
+	<a href="{{ path('immobilisation_stats') }}">
+    <span class="stats">Statistiques</span>
+  </a>
+	<a href="{{ path('immobilisation', {'_format': 'csv'}) }}">
+		<span class="csv">Exporter</span>
+	</a>
+</div>
+
+<form action="{{ path('immobilisation') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.article) }}</td>
+            <td>{{ form_label(form.bonCommande) }}</td>
+						<td>{{ form_label(form.rubrique) }}</td>
+						<td>{{ form_label(form.affectation) }}</td>
+						<td>{{ form_label(form.dateBc) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.article) }}</td>
+            <td>{{ form_widget(form.bonCommande) }}</td>
+						<td>{{ form_widget(form.rubrique) }}</td>
+						<td>{{ form_widget(form.affectation) }}</td>
+						<td>{{ form_widget(form.dateBc) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if not entities|length  %}
+    <div class="flash notice">Désolé. Aucun article n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+						<th>{{ entities.sortable('Bon de commande', 'b.numero')|raw }}</th>
+            <th>{{ entities.sortable('Article', 'a.designation')|raw }}</th>
+						<th>{{ entities.sortable('Affectation', 'b.affectation')|raw }}</th>
+						<th>{{ entities.sortable('Date de recéption', 'b.dateBc')|raw }}</th>
+						<th>{{ entities.sortable('Ammortissement', 'r.dureeAmmortissement')|raw }}</th>
+						<th>{{ entities.sortable('Rubrique', 'r.intitule')|raw }}</th>
+						<th>{{ entities.sortable('Quantité', 'ab.quantite')|raw }}</th>
+            <th>{{ entities.sortable('Prix unitaire TTC', 'ab.prixUnitaire')|raw }}</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+			<td>{{ entity.bonCommande.numero }}</td>
+            <td>{{ entity.article|truncate(80, true, '...') }}</td>
+			<td>{{ entity.bonCommande.affectation }}</td>
+			<td>{% if entity.bonCommande.dateBc %}{{ entity.bonCommande.dateBc|date('d-m-Y') }}{% endif %}</td>
+			<td>{{ entity.ammortissement(entity.bonCommande.rubrique.dureeAmmortissement, entity.bonCommande.yearsAgo) }} %</td>
+			<td>{{ entity.bonCommande.rubrique }}</td>
+            <td>{{ entity.quantite }}</td>
+			<td align="right" width="75">{{ entity.getPrixUnitaireTtc|number_format(2, '.', ' ') }}</td>
+			<td align="right" width="75">{{ entity.totalTtc|number_format(2, '.', ' ') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

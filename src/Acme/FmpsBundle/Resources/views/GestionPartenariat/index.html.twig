@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des Chargés du partenariat</h3>
+
+
+<div class="pull-right">
+    <a href="{{ path('gestionpartenariat_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une personne chargé du partenariat</span>
+    </a>
+</div>
+
+<form action="{{ path('gestionpartenariat') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.partenariat) }}</td>
+            <td>{{ form_label(form.contact) }}</td>
+            <td>{{ form_label(form.dateAffectationGestion) }}</td>
+            <td>{{ form_label(form.dateFinAffectationGestion) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.partenariat) }}</td>
+            <td>{{ form_widget(form.contact) }}</td>
+            <td>{{ form_widget(form.dateAffectationGestion) }}</td>
+            <td>{{ form_widget(form.dateFinAffectationGestion) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune gestion de partenariat n'a été trouvée</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">{{ entities.sortable('Id', 'g.id')|raw }}</th>
+            <th>{{ entities.sortable('Partenariat', 'g.partenariatId')|raw }}</th>
+            <th>{{ entities.sortable("Date de début", 'g.dateAffectationGestion')|raw }}</th>
+            <th>{{ entities.sortable("Date de fin", 'g.dateFinAffectationGestion')|raw }}</th>
+            <th>{{ entities.sortable('Contact', 'd.contactId')|raw }}</th>
+            <th width="280">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('gestionpartenariat_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.partenariat }}</td>
+            <td>{% if entity.dateAffectationGestion %}{{ entity.dateAffectationGestion|date('d-m-Y') }}{% endif%}</td>
+            <td>{% if entity.dateFinAffectationGestion %}{{ entity.dateFinAffectationGestion|date('d-m-Y') }}{% endif%}</td>
+            <td><a href="{{ path('contact_show', { 'id': entity.contactId }) }}">{{ entity.contact }}</a></td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('gestionpartenariat_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('gestionpartenariat_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('gestionpartenariat_delete', { 'id': entity.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

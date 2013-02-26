@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des bons de livraison</h3>
+
+<div class="pull-right">
+    <a href="{{ path('bonlivraison_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un bon de livraison</span>
+    </a>
+</div>
+
+<form action="{{ path('bonlivraison') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.bonCommande) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.bonCommande) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun bon de livraison n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">{{ entities.sortable('Id', 'b.id')|raw }}</th>
+            <th>{{ entities.sortable('Bon commande', 'b.bonCommandeId')|raw }}</th>
+            <th>{{ entities.sortable('Document', 'b.fichier')|raw }}</th>
+            <th width="280">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('bonlivraison_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.bonCommande }}</td>
+            <td><a href="{{asset(entity.webPath)}}" target="_blank">{{ entity.path }}</a></td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('bonlivraison_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('bonlivraison_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('bonlivraison_delete', { 'id': entity.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

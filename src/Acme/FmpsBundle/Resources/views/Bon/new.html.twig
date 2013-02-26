@@ -1,0 +1,95 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter un bon</h1>
+  <script type="text/javascript">
+    $(function() 
+	{
+     $('#paiement').hide();
+     
+     $('.oui').click(function()
+	   { 
+         if (this.checked) 
+		   {
+              $('#paiement').show();
+              
+           }
+		   else
+		   {
+             $('#paiement').hide();
+             
+           }
+       });
+	});
+</script>
+<form action="{{ path('bon_create') }}" method="post" {{ form_enctype(form) }}>
+ 	{{ form_row(form._token) }} 
+    
+	  <div>
+		     {{ form_label(form.ecole) }}
+		     {{ form_widget(form.ecole) }}
+		     {{ form_errors(form.ecole) }}
+		</div>
+		
+		<div>
+		     {{ form_label(form.fournisseur) }}
+		     {{ form_widget(form.fournisseur) }}
+				 {{ form_errors(form.fournisseur) }}
+		</div>
+		
+		<div>
+		     {{ form_label(form.rubrique) }}
+		     {{ form_widget(form.rubrique) }}
+		     {{ form_errors(form.rubrique) }}
+		</div>
+		
+		<div>
+		     {{ form_label(form.patente) }}
+		     {{ form_widget(form.patente) }}
+		     {{ form_errors(form.patente) }}
+		</div>
+		
+		<div>
+		     {{ form_label(form.date) }}
+		     {{ form_widget(form.date) }}
+		     {{ form_errors(form.date) }}
+		</div>
+		
+		<div>
+		     {{ form_label(form.objet) }}
+		     {{ form_widget(form.objet) }}
+		     {{ form_errors(form.objet) }}
+		</div>
+		
+		<div>
+		     {{ form_label(form.montant) }}
+		     {{ form_widget(form.montant) }}
+		     {{ form_errors(form.montant) }}
+		</div>
+		
+    <p>
+         <input type="checkbox" class="oui" ><u>Information Paiement :</u></input><br><br>
+	  </p>
+	<div id="paiement">
+		<div>
+		     {{ form_label(form.datePaiement) }}
+		     {{ form_widget(form.datePaiement) }}
+		</div>
+		<div>
+		     {{ form_label(form.fichier) }}
+		     {{ form_widget(form.fichier) }}
+		</div>
+	</div>
+	<p>
+     <button type="submit">Créer</button>
+  </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('bon') }}">
+             <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

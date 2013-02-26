@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Fournisseur" table="fournisseur">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nom" type="string" column="nom" length="255"/>
+    <field name="adresse" type="text" column="adresse"/>
+    <field name="telephone" type="string" column="telephone" length="125"/>
+    <field name="fax" type="string" column="fax" length="125"/>
+    <field name="registreCommerce" type="string" column="registre_commerce" length="125"/>
+    <field name="numeroPatente" type="string" column="numero_patente" length="125"/>
+    <field name="identifiantFiscale" type="string" column="identifiant_fiscale" length="125"/>
+    <field name="numeroRib" type="string" column="numero_rib" length="125"/>
+    <field name="banque" type="string" column="banque" length="125"/>
+    <field name="attestationRib" type="string" column="attestation_rib" length="125"/>
+    <field name="path" type="string" column="path" length="255"/>
+    <field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+  </entity>
+</doctrine-mapping>

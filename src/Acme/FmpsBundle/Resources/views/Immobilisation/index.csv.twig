@@ -1,0 +1,4 @@
+Bon de commande; Article; Affectation; Date de recéption; Ammortissement; Rubrique; Quantité; Prix unitaire TTC; Total
+    {% for entity in entities %}
+{{ entity.bonCommande.numero }}; {{ entity.article|truncate(80, true, '...') }}; {{ entity.bonCommande.affectation }}; {% if entity.bonCommande.dateBc %}{{ entity.bonCommande.dateBc|date('d-m-Y') }}{% endif %}; {{ entity.ammortissement(entity.bonCommande.rubrique.dureeAmmortissement, entity.bonCommande.yearsAgo) }} %; {{ entity.bonCommande.rubrique }}; {{ entity.quantite }}; {{ entity.getPrixUnitaireTtc|number_format(2, '.', ' ') }}; {{ entity.totalTtc|number_format(2, '.', ' ') }}
+    {% endfor %}

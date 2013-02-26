@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Cloturer un mois</h3>
+
+<form action="{{ path('situationcaisse_create', { 'mois': mois,'annee': annee,'mois_libelle': mois_libelle }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+ 
+</form>
+
+   <form action="{{'situationcaisse_new'}}" method="get">
+<span class="pdf"><a target="_blank" href="{{ path('situationcaisse_new', {'_format': 'pdf'}) }}">PDF Version</span></a>
+</form>     
+ 
+<ul class="record_actions">
+    <li>
+       <a href="{{ path('situationcaisse') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

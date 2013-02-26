@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter un bon de commande</h1>
+
+<form action="{{ path('boncommande_create') }}" method="post" class="well form-horizontal" {{ form_enctype(form) }}>
+   
+	 <div>
+    {{ form_errors(form) }}
+   </div>
+   
+   <div>
+    {{ form_label(form.objet) }}
+    {{ form_widget(form.objet) }}
+   </div>
+   
+   <div>
+    {{ form_label(form.rubrique) }}
+    {{ form_widget(form.rubrique) }}
+    <a href="{{ path('rubrique_new', {'back_url': 'new_bc'}) }}"><span><i class="icon-plus-sign icon-white"></i> Ajouter une rubrique</span></a>
+   </div>
+   
+    <div>
+    {{ form_label(form.fournisseur) }}
+    {{ form_widget(form.fournisseur) }}
+    <a href="{{ path('fournisseur_new', {'back_url': 'new_bc'}) }}"><span><i class="icon-plus-sign icon-white"></i> Ajouter un fournisseur</span></a>
+   </div>
+   
+   {{ form_rest(form) }}
+    <p>
+        <button type="submit" class="btn btn-primary">Créer</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('boncommande') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

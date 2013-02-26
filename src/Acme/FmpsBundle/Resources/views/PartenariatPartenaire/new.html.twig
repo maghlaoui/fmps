@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<h1>Ajouter un partenaire dans un partenariat</h1>
+
+<form action="{{ path('partenariatpartenaire_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_row(form._token) }} 
+	<div>
+	    {{ form_label(form.partenariat) }}
+	    {{ form_widget(form.partenariat) }}
+	</div>
+	
+	<div>
+	    {{ form_label(form.partenaire) }}
+	    {{ form_widget(form.partenaire) }}
+	    <a href="#content-div" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter un partenaire</span></a>
+	</div>
+	
+	<div>
+	    {{ form_label(form.type_engagement) }}
+	    {{ form_widget(form.type_engagement) }}
+			<a href="#new_type_engagement" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter un type d'engagement</span></a>
+	</div>
+	
+	<div>
+	    {{ form_label(form.type_contribution) }}
+	    {{ form_widget(form.type_contribution) }}
+	    <a href="#new_type_contribution" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter une periodicité</span></a>
+	</div>
+	
+	<div>
+	    {{ form_label(form.montantParticipation) }}
+	    {{ form_widget(form.montantParticipation) }}
+	</div>
+	
+	<div>
+	    {{ form_label(form.detail) }}
+	    {{ form_widget(form.detail) }}
+	</div>
+	
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+<div id="content-div" style="display: none">
+	<h1>Ajouter un partenaire</h1>
+  <div class="flash error invisible" id="ajax_error"></div>
+	<form action="{{ path('partenaire_create') }}" class="ajax_form" method="post" {{ form_enctype(partenaire_form) }}>
+    {{ form_widget(partenaire_form) }}
+    <p>
+        <button type="submit" id="ajax_submit">Créer</button>
+    </p>
+	</form>
+
+</div>
+
+<div id="new_type_contribution" style="display: none">
+<h1>Ajouter une périodicité</h1>
+
+<form action="{{ path('typecontribution_create') }}" class="ajax_form" method="post" {{ form_enctype(type_contribution_form) }}>
+    {{ form_widget(type_contribution_form) }}
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+</div>
+
+<div id="new_type_engagement" style="display: none">
+
+<h1>Ajouter un type d'engagement</h1>
+
+<form action="{{ path('typeengagement_create') }}" class="ajax_form" method="post" {{ form_enctype(type_engagement_form) }}>
+    {{ form_widget(type_engagement_form) }}
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('partenariatpartenaire') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+
+{% endblock %}

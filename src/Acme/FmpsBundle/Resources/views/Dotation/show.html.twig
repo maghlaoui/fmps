@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Dotation</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+				<tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+				<tr>
+            <th>Année</th>
+            <td>{{ entity.annee }}</td>
+        </tr>
+        <tr>
+            <th>Période</th>
+            <td>{{ entity.periode }}</td>
+        </tr>
+        <tr>
+            <th>Montant</th>
+            <td>{{ entity.montant|number_format(2, '.', ' ') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('dotation') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('dotation_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('dotation_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

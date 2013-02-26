@@ -1,0 +1,96 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Editer un employé</h1>
+
+<form action="{{ path('employe_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+    	{{ form_row(form._token) }} 
+    <div>
+		    {{ form_label(form.matricule) }}
+		    {{ form_widget(form.matricule) }}
+		    {{ form_errors(form.matricule) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.nom) }}
+		    {{ form_widget(form.nom) }}
+		    {{ form_errors(form.nom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.prenom) }}
+		    {{ form_widget(form.prenom) }}
+		    {{ form_errors(form.prenom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.tel) }}
+		    {{ form_widget(form.tel) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.flote) }}
+		    {{ form_widget(form.flote) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.cin) }}
+		    {{ form_widget(form.cin) }}
+		    {{ form_errors(form.cin) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.cnss) }}
+		    {{ form_widget(form.cnss) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.rib) }}
+		    {{ form_widget(form.rib) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.adresse) }}
+		    {{ form_widget(form.adresse) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.dateNaissance) }}
+		    {{ form_widget(form.dateNaissance) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.superieur) }}
+		    {{ form_widget(form.superieur) }}
+		</div>
+	
+		<div>
+		    {{ form_label(form.fichier) }}
+		    {{ form_widget(form.fichier) }}
+		</div>
+		
+    <p>
+        <button type="submit">Editer</button>
+    </p>
+		<p class="required_notes">Les champs indiqués par un astérisque sont obligatoires.</p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('employe') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    {% if user %}
+    <li><a href="{{ path('user_edit', { 'id': user.id, 'return': 'employe' }) }}"><span class="edit" style="width:auto">Modifier les informations du compte</span></a></a></li>
+    {% endif %}
+    <li>
+        <form action="{{ path('employe_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="delete" data-confirm="êtes vous sûre de vouloir supprimer?">Supprimer</button>
+        </form>
+    </li>
+</ul>
+
+
+{% endblock %}

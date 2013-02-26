@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Validation de la création d'une caisse</h3>
+Le compte {{ entity.numeroCompte}} est lié à d'autre écoles : </br>
+<ul>
+{% for entity in entities %}
+ <li>{{ entity.ecole }}</li>
+{% endfor %}
+</ul>
+<form action="{{ path('ecolecaisse_validate') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    
+    <input type="hidden" name="numeroCompte" value="{{ entity.numeroCompte}}"  />
+    <input type="hidden" name="ecoleId" value="{{ entity.ecoleId }}"  />
+    <p>
+				<p>
+				 Voulez vous affecter le compte {{ entity.numeroCompte}} à l'école de {{ entity.ecoleId}}  
+				</p>
+        <button type="submit" class="btn">Valider</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('ecolecaisse') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

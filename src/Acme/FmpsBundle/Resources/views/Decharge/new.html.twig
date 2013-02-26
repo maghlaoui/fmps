@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter une décharge</h1>
+  <script type="text/javascript">
+    $(function() 
+	{
+     $('#paiement').hide();
+     
+     $('.oui').click(function()
+	   { 
+         if (this.checked) 
+		   {
+              $('#paiement').show();
+              
+           }
+		   else
+		   {
+             $('#paiement').hide();
+             
+           }
+       });
+	});
+</script>
+<form action="{{ path('decharge_create') }}" method="post" {{ form_enctype(form) }}>
+ 	{{ form_row(form._token) }} 
+    
+		<div>
+		     {{ form_label(form.ecole) }}
+		     {{ form_widget(form.ecole) }}
+		     {{ form_errors(form.ecole) }}
+		</div>
+		<div>
+		     {{ form_label(form.nom) }}
+		     {{ form_widget(form.nom) }}
+		     {{ form_errors(form.nom) }}
+		</div>
+		<div>
+		     {{ form_label(form.prenom) }}
+		     {{ form_widget(form.prenom) }}
+			   {{ form_errors(form.prenom) }}
+		</div>
+		<div>
+		     {{ form_label(form.cin) }}
+		     {{ form_widget(form.cin) }}
+		     {{ form_errors(form.cin) }}
+		</div>
+		<div>
+		     {{ form_label(form.date) }}
+		     {{ form_widget(form.date) }}
+		     {{ form_errors(form.date) }}
+		</div>
+		<div>
+		     {{ form_label(form.objet) }}
+		     {{ form_widget(form.objet) }}
+		     {{ form_errors(form.objet) }}
+		</div>
+		<div>
+		     {{ form_label(form.natureDepense) }}
+		     {{ form_widget(form.natureDepense) }}
+		     {{ form_errors(form.natureDepense) }}
+		</div>
+		<div>
+		     {{ form_label(form.montant) }}
+		     {{ form_widget(form.montant) }}
+		     {{ form_errors(form.montant) }}
+		</div>
+    <p>
+         <input type="checkbox" class="oui" ><u>Information Paiement :</u></input><br><br>
+	  </p>
+		<div id="paiement">
+			<div>
+		     {{ form_label(form.datePaiement) }}
+		     {{ form_widget(form.datePaiement) }}
+			</div>
+			<div>
+		     {{ form_label(form.fichier) }}
+		     {{ form_widget(form.fichier) }}
+			</div>
+		</div>
+		<p>
+         <button type="submit">Créer</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('decharge') }}">
+             <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

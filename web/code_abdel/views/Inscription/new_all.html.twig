@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Demande</h1>
+
+<form action="{{ path('inscription_create') }}" method="post" {{ form_enctype(form) }}>
+   
+    <form action="{{ path('inscription_create') }}" method="post" {{ form_enctype(form) }}>
+		 	{{ form_row(form._token) }} 
+
+			  <div>
+				     {{ form_label(form.ecole) }}
+				     {{ form_widget(form.ecole) }}
+				     {{ form_errors(form.ecole) }}
+				</div>
+				
+				<div>
+				     {{ form_label(form.numDemande) }}
+				     {{ form_widget(form.numDemande) }}
+				     {{ form_errors(form.numDemande) }}
+				</div>
+				
+				<div>
+				     {{ form_label(form.dateDemande) }}
+				     {{ form_widget(form.dateDemande) }}
+				     {{ form_errors(form.dateDemande) }}
+				</div>
+				
+				<div>
+				     {{ form_label(form.dateEntree) }}
+				     {{ form_widget(form.dateEntree) }}
+				     {{ form_errors(form.dateEntree) }}
+				</div>
+				
+			
+				
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+
+
+
+<form action="{{ path('titeur_create') }}" class="ajax_form" method="post" {{ form_enctype(titeur_form) }}>
+    {{ form_widget(titeur_form) }}
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+
+{% endblock %}

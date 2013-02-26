@@ -1,0 +1,33 @@
+<?php
+// src/Acme/FmpsBundle/EventListener/AcmeExceptionListener.php
+namespace Acme\FmpsBundle\EventListener;
+
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+
+class AcmeExceptionListener
+{
+    public function onKernelException(GetResponseForExceptionEvent $event)
+    {
+        // You get the exception object from the received event
+        $exception = $event->getException();
+        $message = 'My Error says: ' . $exception->getMessage() . ' with code: ' . $exception->getCode();
+
+        // Customize your response object to display the exception details
+        $response = new Response();
+        $response->setContent($message);
+
+        // HttpExceptionInterface is a special type of exception that
+        // holds status code and header details
+        if ($exception instanceof HttpExceptionInterface) {
+            $response->setStatusCode($exception->getStatusCode());
+            $response->headers->replace($exception->getHeaders());
+        } else {
+            $response->setStatusCode(500);
+        }
+
+        // Send the modified response object to the event
+        $event->setResponse($response);
+    }
+}

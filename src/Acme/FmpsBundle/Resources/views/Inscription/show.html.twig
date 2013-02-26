@@ -1,0 +1,95 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Inscription</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Numéro de la demande</th>
+            <td>{{ entity.numDemande }}</td>
+        </tr>
+        <tr>
+            <th>Date de la demande</th>
+            <td>{{ entity.dateDemande|date('Y-m-d') }}</td>
+        </tr>
+        <tr>
+            <th>Type de la demande</th>
+            <td>{{ entity.typeDemande }}</td>
+        </tr>
+        <tr>
+            <th>Etat de la demande</th>
+            <td>{{ entity.etatDemande }}</td>
+        </tr>
+        <tr>
+            <th>Date d'entrée</th>
+            <td>{{ entity.dateEntree|date('Y-m-d') }}</td>
+        </tr>
+        <tr>
+            <th>Catégorie</th>
+            <td>{{ entity.category }}</td>
+        </tr>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+        <tr>
+            <th>Année scolaire</th>
+            <td>{{ entity.anneeScolaire }}</td>
+        </tr>
+        <tr>
+            <th>Section</th>
+            <td>{{ entity.section }}</td>
+        </tr>
+        <tr>
+            <th>Tuteur</th>
+            <td>{{ entity.titeur }}</td>
+        </tr>
+        <tr>
+            <th>Enfant</th>
+            <td>{{ entity.enfant }}</td>
+        </tr>
+        <tr>
+            <th>Assurance</th>
+            <td>{{ entity.assurance }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('inscription') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('inscription_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    {% if entity.validated == 0 %}
+    <li>
+        <a href="{{ path('paiement_new', { 'inscription_id': entity.id }) }}">
+            <span><i class="icon-plus-sign icon-white"></i> Paiement des frais d'inscription</span>
+        </a>
+    </li>
+    {% endif %}
+    {% if entity.validated == 1 %}
+    <li>
+        <a href="{{ path('inscriptionoffreservice_new', { 'inscription_id': entity.id }) }}">
+            <span><i class="icon-plus-sign icon-white"></i> Ajouter des services</span>
+        </a>
+    </li>
+		{% endif %}
+    <li>
+        <form action="{{ path('inscription_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

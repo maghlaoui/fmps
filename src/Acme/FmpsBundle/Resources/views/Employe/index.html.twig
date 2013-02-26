@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des employés</h3>
+
+<div class="pull-right">
+    	{% include "AcmeFmpsBundle:Default:add_link.html.twig" with {'url': path('employe_new'), 'title': 'Ajouter un employé'} %}
+</div>
+
+<form action="{{ path('employe') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+			<tr>
+        <td>{{ form_label(form.matricule) }}</td>
+        <td>{{ form_label(form.nom) }}</td>
+        <td>{{ form_label(form.prenom) }}</td>
+			  <td>{{ form_label(form.fonction) }}</td>
+			  <td>{{ form_label(form.ecole) }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{{ form_widget(form.matricule) }}</td>
+        <td>{{ form_widget(form.nom) }}</td>
+        <td>{{ form_widget(form.prenom) }}</td>
+        <td>{{ form_widget(form.fonction) }}</td>
+        <td>{{ form_widget(form.ecole) }}</td>
+        <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+      </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun employé n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="20">Id</th>
+            <th>{{ entities.sortable('Matricule', 'e.matricule')|raw }}</th>
+            <th>{{ entities.sortable('Nom', 'e.nom')|raw }}</th>
+            <th>{{ entities.sortable('Prénom', 'e.prenom')|raw }}</th>
+            <th>{{ entities.sortable('Flotte', 'e.flote')|raw }}</th>
+						<th>{{ entities.sortable('CIN', 'e.cin')|raw }}</th>
+						<th>{{ entities.sortable('Affectation', 'ec.nom')|raw }}</th>
+            <th>{{ entities.sortable('Fonction', 'f.libele')|raw }}</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('employe_show', { 'id': entity.id }) }}">{{ loop.index }}</a></td>
+            <td>{{ entity.matricule }}</td>
+            <td>{{ entity.nom }}</td>
+            <td>{{ entity.prenom }}</td>
+            <td>{{ entity.flote }}</td>
+						<td>{{ entity.cin }}</td>
+						<td>{{ entity.ecole }}</td>
+            <td>{{ entity.fonction }}</td>
+            <td>
+              {% include "AcmeFmpsBundle:Default:show_link.html.twig" with {'url': path('employe_show', { 'id': entity.id })} %}
+              {% include "AcmeFmpsBundle:Default:edit_link.html.twig" with {'url': path('employe_edit', { 'id': entity.id })} %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

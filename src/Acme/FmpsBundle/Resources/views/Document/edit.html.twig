@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Editer un document</h3>
+
+<form action="{{ path('document_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+     {{ form_row(edit_form._token) }} 
+			<div>
+			    {{ form_label(edit_form.partenariat) }}
+			    {{ form_widget(edit_form.partenariat) }}
+			</div>
+
+			<div>
+			    {{ form_label(edit_form.type_document) }}
+			    {{ form_widget(edit_form.type_document) }}
+			    <a href="#content-div" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter un type de document</span></a>
+			</div>
+
+			<div>
+			    {{ form_label(edit_form.fichier) }}
+			    {{ form_widget(edit_form.fichier) }}
+			</div>
+    <p>
+        <button type="submit" class="btn">Editer</button>
+    </p>
+</form>
+
+<div id="content-div" style="display: none">
+
+<h3>Ajouter un type de document</h3>
+
+<form action="{{ path('typedocument_create') }}" class="ajax_form" method="post" {{ form_enctype(type_document_form) }}>
+    {{ form_widget(type_document_form) }}
+    <input type="hidden" name="dom_id" value="document_type_document" />
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('document') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('document_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

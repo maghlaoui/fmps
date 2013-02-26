@@ -1,0 +1,35 @@
+<h3>Liste des bons de Commande</h3>
+
+<table width="90%" class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Numéro</th>
+            <th>Date</th>
+            <th>Fournisseur</th>
+            <th>Objet</th>
+            <th>Status</th>
+            <th width="100">Montant TTC</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set total_generale = 0 %}
+    {% for entity in entities %}
+        {% set total_generale = total_generale + entity.montant %}
+        <tr>
+            <td>{{ entity.numero }}</td>
+            <td>{% if entity.dateBc %}{{ entity.dateBc|date('d-m-Y') }}{% endif %}</td>
+            <td>{% if entity.fournisseurId %} {{ entity.fournisseur }} {% endif %}</td>
+            <td>{{ entity.objet }}</td>
+            <td>{{ entity.status }}</td>
+            <td align="right" class="montant">{{ (entity.montant*entity.remiseFor)|number_format(2, '.', ' ') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="bold">
+            <td colspan="5" align="right">TOTAL: </td>
+            <td id="total" align="right"> {{ total_generale|number_format(2, '.', ' ') }}</td>
+            <td></td>
+        </tr>
+     <tfoot>
+</table>

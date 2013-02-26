@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des fonctions</h3>
+
+<div class="pull-right">
+    <a href="{{ path('fonction_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une fonction</span>
+    </a>
+</div>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune fonction n'a été trouvée</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>{{ entities.sortable('Libellé', 'f.libele')|raw }}</th>
+            <th>{{ entities.sortable('Niveau hiérarchique', 'f.niveauHierarchique')|raw }}</th>
+            <th  width="160">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('fonction_show', { 'id': entity.id }) }}">{{ loop.index }}</a></td>
+            <td>{{ entity.libele }}</td>
+            <td>{{ entity.niveauHierarchique }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('fonction_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('fonction_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

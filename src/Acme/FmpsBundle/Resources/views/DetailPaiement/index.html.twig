@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>DetailPaiement list</h3>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Moisid</th>
+            <th>Serviceid</th>
+            <th>Inscriptionid</th>
+            <th>Paiementid</th>
+            <th>Etat</th>
+            <th>Montant</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('detailpaiement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.moisId }}</td>
+            <td>{{ entity.serviceId }}</td>
+            <td>{{ entity.inscriptionId }}</td>
+            <td>{{ entity.paiementId }}</td>
+            <td>{{ entity.etat }}</td>
+            <td>{{ entity.montant }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('detailpaiement_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('detailpaiement_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('detailpaiement_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

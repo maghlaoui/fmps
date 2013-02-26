@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<script type="text/javascript">
+$(function() {
+var d=1;
+ $('.attacher').click(function()
+   { 
+
+        if(d==1){
+        $('.attach').append('<input type="file"   name="d1" size="40">');
+
+        }  if (d==2){
+        $('.attach').append('<input type="file"   name="d2" >');
+
+        }
+
+        d=d+1;
+   });
+
+
+});
+</script>
+
+
+<h3>Ajouter une actualité</h3>
+
+<form action="{{ path('actualite_new') }}" method="POST" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+<a  class="attacher">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un attachement</span>
+     </a>
+<div class="attach">
+
+    </div>
+<p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+
+
+
+</form>
+
+ <br><br>
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('actualite') }}">
+         <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

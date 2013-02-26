@@ -1,0 +1,263 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	<br />
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#employe" data-toggle="tab">Employé</a></li>
+		<li><a href="#compte" data-toggle="tab">Infos. Compte</a></li>
+		<li><a href="#affectations" data-toggle="tab">Affectations</a></li>
+		<li><a href="#fonctions" data-toggle="tab">Fonctions</a></li>
+		<li><a href="#documents" data-toggle="tab">Documents</a></li>
+		<li><a href="#absences" data-toggle="tab">Absences</a></li>
+		<li><a href="#formations" data-toggle="tab">Formations</a></li>
+		<li><a href="#evaluation" data-toggle="tab">Evaluation</a></li>
+	</ul>
+	
+	<div id="my-tab-content" class="tab-content">
+		<div class="tab-pane active" id="employe">
+			<div class="pull-right mb10">
+				{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+				 {% include "AcmeFmpsBundle:Default:back_link.html.twig" with {'url': path('employe')} %}
+				 {% include "AcmeFmpsBundle:Default:edit_link.html.twig" with {'url': path('employe_edit', {'id': entity.id})} %}
+				{% endif %}
+			  {% include "AcmeFmpsBundle:Default:download_link.html.twig" with {'url': path('employe_show', {'id': entity.id, '_format': 'pdf'})} %}<br />
+			</div>
+			
+			{%  if entity.fichier %}
+			<img src="{{ asset(entity.webPath) }}" alt="{{ entity.prenom }} {{ entity.nom }}" class="pull-left img-polaroid"  />
+			{% endif %}
+			<table class="table table-hover">
+			    <tbody>
+			        <tr>
+			            <th width="20%">Matricule</th>
+			            <td>{{ entity.matricule }}</td>
+			        </tr>
+			        <tr>
+			            <th>Nom</th>
+			            <td>{{ entity.nom }}</td>
+			        </tr>
+			        <tr>
+			            <th>Prénom</th>
+			            <td>{{ entity.prenom }}</td>
+			        </tr>
+			        <tr>
+			            <th>Téléphone</th>
+			            <td>{{ entity.tel }}</td>
+			        </tr>
+			        <tr>
+			            <th>Flotte</th>
+			            <td>{{ entity.flote }}</td>
+			        </tr>
+			        <tr>
+			            <th>Cin</th>
+			            <td>{{ entity.cin }}</td>
+			        </tr>
+							<tr>
+			            <th>Cnss</th>
+			            <td>{{ entity.cnss }}</td>
+			        </tr>
+							<tr>
+			            <th>Rib</th>
+			            <td>{{ entity.rib }}</td>
+			        </tr>
+							<tr>
+			            <th>Adresse</th>
+			            <td>{{ entity.adresse }}</td>
+			        </tr>
+							<tr>
+			            <th>Date de naissance</th>
+			            <td>{% if entity.dateNaissance %}{{ entity.dateNaissance|date('d-m-Y') }}{% endif%}</td>
+			        </tr>
+			        <tr>
+			            <th>Supérieur</th>
+			            <td>{{ entity.superieur }}</td>
+			        </tr>
+			        <tr>
+			            <th>Affectation actuelle</th>
+			            <td>{{ entity.ecole }}</td>
+			        </tr>
+			        <tr>
+			            <th>Fonction actuelle</th>
+			            <td>{{ entity.fonction }}</td>
+			        </tr>
+			    </tbody>
+			</table>
+	    {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+			<form action="{{ path('employe_delete', { 'id': entity.id }) }}" method="post" class=" pull-right">
+		    {{ form_widget(delete_form) }}
+		  	<br />
+		    {% include "AcmeFmpsBundle:Default:delete_link.html.twig" %}
+		  </form>
+			{% endif %}
+		</div>
+		
+		<div class="tab-pane" id="compte">
+			{%  if user %}
+			<h3>Informations sur le compte:</h3>
+			<table>
+			    </tbody>
+			        <tr>
+			            <td>Identifiant</td>
+			            <td>{{ user.username }}</td>
+			        </tr>
+							<tr>
+			            <td>Email</td>
+			            <td>{{ user.email }}</td>
+			        </tr>
+ 							{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+			        <tr>
+			            <td><a href="{{ path('user_password_reset', { 'id': user.id }) }}"><span class="edit">Modifier le mot de passe</span></a></td>
+			            <td></td>
+			        </tr>
+							{% endif %}
+			        <tr>
+			            <td>Rôles</td>
+			            <td>
+			 							  <ul class="icons">
+			                {% for role in user.roles %}
+			                    <li><i class="icon-ok"></i>{% if role in default_roles|keys %} {{ default_roles[role] }} {% endif %}</li>
+			                {% endfor %}
+			 							  </ul>
+			            </td>
+			        </tr>
+
+			    </tbody>
+			</table>
+			 {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+			<ul class="record_actions">
+			 	<li>
+			     <a href="{{ path('user_edit', { 'id': user.id, 'return': 'employe' }) }}">
+			         <i class="icon icon-edit"></i> Editer
+			     </a>
+			 </li>
+			</ul>
+			{% endif %}
+			{% endif %}
+		</div>
+		
+		<div class="tab-pane" id="affectations">
+			{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+			<div class="pull-right">
+				<a href="{{ path('affectation_new', { 'employe_id': entity.id }) }}">
+			    <span><i class="icon-plus-sign icon-white"></i> Ajouter une affectation</span>
+			  </a>
+			</div>
+			{% endif %}
+			<h3>Affectations</h3>
+			<table class="table table-bordered table-striped table-hover">
+			         <tr>
+			            <th>Affectation</th>
+			            <th>Date d'entrée</th>
+			            <th>Date de fin</th>
+			         </tr>
+			        {% for affectation in entity.affectations %}
+			            <tr>
+			                    <td>{{ affectation.ecole }}</td>
+			                <td>{% if affectation.dateDebutAffectation %}{{ affectation.dateDebutAffectation|date('d-m-Y') }}{% endif%}</td>
+			                <td>{% if affectation.dateFinAffectation %}{{ affectation.dateFinAffectation|date('d-m-Y') }}{% endif%}</td>
+			            </tr>
+			        {% endfor %}
+			        </table>
+			
+	  </div>
+		
+		<div class="tab-pane" id="fonctions">
+			{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+			<div class="pull-right">
+				<a href="{{ path('employefonction_new', { 'employe_id': entity.id }) }}">
+			    <span><i class="icon-plus-sign icon-white"></i> Ajouter une fonction</span>
+			  </a>
+			</div>
+			{% endif %}
+			<h3>Fonctions</h3>
+			<table class="table table-bordered table-striped table-hover">
+			         <tr>
+			            <th>Fonction</th>
+			            <th>Date de début</th>
+			            <th>Date de fin</th>
+			         </tr>
+			        {% for fonction in fonctions %}
+			            <tr>
+			                <td>{{ fonction.fonction }}</td>
+			                <td>{% if fonction.dateDebutFonction %}{{ fonction.dateDebutFonction|date('d-m-Y') }}{% endif%}</td>
+			                <td>{% if fonction.dateFinFonction %}{{ fonction.dateFinFonction|date('d-m-Y') }}{% endif%}</td>
+			            </tr>
+			        {% endfor %}
+			</table>
+		
+		</div>
+		
+		<div class="tab-pane" id="documents">
+			<h3>Documents</h3>
+			{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+			<div class="pull-right">
+				<a href="{{ path('employedocument_new', { 'employe_id': entity.id }) }}">
+			    <span><i class="icon-plus-sign icon-white"></i> Ajouter un document</span>
+			  </a>
+			</div>
+			{% endif %}
+			<table class="table table-bordered table-striped table-hover">
+			    <thead>
+			        <tr>
+			            <th>Titre</th>
+			            <th>Type du document</th>
+									<th>Télécharger</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+					     {% for document in entity.documents %}
+				            <tr>
+				                    <td><a href="{{ path('employedocument_edit', { 'id': document.id, 'return': 'employe' }) }}">{{ document.titre }}</a></td>
+				                		<td>{{ document.employe }}</td>
+								            <td><a href="{{ asset(document.webPath) }}" target="_blank">{{ document.titre }}</a></td>
+				            </tr>
+				        {% endfor %}
+			    </tbody>
+			</table>
+			
+		</div>
+		
+		<div class="tab-pane" id="absences">
+			<h3>Absences</h3>
+			<div class="pull-right">
+				<a href="{{ path('employeabsence_new', { 'employe_id': entity.id }) }}">
+			    <span><i class="icon-plus-sign icon-white"></i> Ajouter une absence</span>
+			  </a>
+			</div>
+			<table class="table table-bordered table-striped table-hover">
+			    <thead>
+			        <tr>
+			            <th>Id</th>
+			            <th>Du</th>
+			            <th>Au</th>
+			            <th>Motif</th>
+			            <th>Justifié</th>
+			            <th>Commentaire</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			    {% for absence in entity.absences %}
+			        <tr>
+			            <td><a href="{{ path('employeabsence_show', { 'id': absence.id }) }}">{{ absence.id }}</a></td>
+			            <td>{% if absence.du %}{{ absence.du|date('Y-m-d') }}{% endif %}</td>
+			            <td>{% if absence.au %}{{ absence.au|date('Y-m-d') }}{% endif %}</td>
+			            <td>{{ absence.motif }}</td>
+			            <td>{{ absence.justifie == 1 ? 'oui' : 'non' }}</td>
+			            <td>{{ absence.commentaire }}</td>
+			        </tr>
+			    {% endfor %}
+			    </tbody>
+			</table>
+		</div>
+		
+		<div class="tab-pane" id="formations">
+			<h3>Formations</h3>
+		</div>
+		
+		<div class="tab-pane" id="evaluation">
+			<h3>Evaluation</h3>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Ajouter un titeur enfant</h3>
+
+<form action="{{ path('enfanttiteur_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn">Create</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('enfanttiteur') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

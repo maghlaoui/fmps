@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Ecole" table="ecole">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nom" type="string" column="nom" length="145"/>
+    <field name="adresse" type="text" column="adresse"/>
+    <field name="villeId" type="integer" column="ville_id"/>
+    <field name="reseauPrescolaireId" type="integer" column="reseau_prescolaire_id"/>
+    <field name="tel1" type="string" column="tel1" length="45"/>
+    <field name="tel2" type="string" column="tel2" length="45"/>
+    <field name="fax" type="string" column="fax" length="45"/>
+    <field name="email" type="string" column="email" length="125"/>
+    <field name="nbrClasse" type="boolean" column="nbr_classe"/>
+    <field name="lattitude" type="string" column="lattitude" length="125"/>
+    <field name="longitude" type="string" column="longitude" length="125"/>
+    <field name="superficie" type="string" column="superficie" length="125"/>
+    <field name="nomCompteBancaire" type="string" column="nom_compte_bancaire" length="255"/>
+    <field name="numeroCompte" type="string" column="numero_compte" length="245"/>
+    <field name="numeroRib" type="string" column="numero_rib" length="245"/>
+    <field name="dateOuverture" type="date" column="date_ouverture"/>
+    <field name="fichier" type="string" column="fichier" length="155"/>
+    <field name="path" type="string" column="path" length="125"/>
+    <field name="gratuite" type="boolean" column="gratuite"/>
+    <field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>CompteBancaire list</h3>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Libelle</th>
+            <th>Numero</th>
+            <th>Nom</th>
+            <th>Banque</th>
+            <th>Createdat</th>
+            <th>Updatedat</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('comptebancaire_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.libelle }}</td>
+            <td>{{ entity.numero }}</td>
+            <td>{{ entity.nom }}</td>
+            <td>{{ entity.banque }}</td>
+            <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('comptebancaire_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('comptebancaire_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('comptebancaire_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

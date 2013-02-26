@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<link rel="stylesheet" href="{{ asset('bundles/acmefmps/css/login.css') }}" type="text/css" />
+				<link rel="stylesheet" href="{{ asset('css/bootstrap.min') }}" type="text/css" />
+				<link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.min') }}" type="text/css" />
+    </head>
+    <body>
+        <div class="logout">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            {% else %}
+                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            {% endif %}
+        </div>
+
+        {% for key, message in app.session.getFlashes() %}
+        <div class="{{ key }}">
+            {{ message|trans({}, 'FOSUserBundle') }}
+        </div>
+        {% endfor %}
+
+        <div class="content">
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+						<li><a href="{{ path('fos_user_resetting_request') }}"> Mot de passe oublié </a></li>
+        </div>
+    </body>
+</html>

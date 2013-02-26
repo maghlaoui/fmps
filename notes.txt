@@ -1,0 +1,39 @@
+Ajouter une page profile 
+  - détails de l'utilisateur 
+  - Lien pour modifier son profil
+
+Ajouter langue dans affectation des employés aux classes
+
+ecole_classe ajouter capacité + checker si la somme des capacités dans classe ne dépasse pas celle qui est dans ecole_classe
+
+enlever matiere
+
+offre de service et ecole classe ramener ceux de la dernière année scolaire
+
+inscription catégorie au lieu d'adhésion
+
+ajouter heure de la demande dans inscription
+
+paiement genérer matricule automatiquement
+
+paiement
+
+référence de virement
+date d'opération
+date de valeur
+
+checker fraternité avec cin du parent
+
+
+*    uniqueConstraints={@ORM\UniqueConstraint(name="unique_idx", columns={"user_id","event_id"})}
+ * )
+
+
+créer un role directeur d'ecole
+
+afficher les infos sur l'école
+
+ajouter un champs pour préciser prq l'offre de service est gratuite
+
+
+002/2013

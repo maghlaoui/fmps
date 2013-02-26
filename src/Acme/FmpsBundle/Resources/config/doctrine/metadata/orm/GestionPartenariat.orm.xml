@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="GestionPartenariat" table="gestion_partenariat">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="partenariatId" type="integer" column="partenariat_id"/>
+    <field name="dateAffectationGestion" type="date" column="date_affectation_gestion"/>
+    <field name="dateFinAffectationGestion" type="date" column="date_fin_affectation_gestion"/>
+    <field name="contactId" type="integer" column="contact_id"/>
+    <field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+  </entity>
+</doctrine-mapping>

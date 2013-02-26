@@ -1,0 +1,47 @@
+<br />
+<h3>Statistiques des bons de Commande</h3>
+<table border="1" style="padding:2px; border-collapse:collapse;" width="90%">
+    <thead>
+        <tr style="text-align:center; font-weight:bold">
+            <th>Année</th>
+            <th>Engagé</th>
+            <th>Payé</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set total_paye = 0 %}
+        {% set total_engage = 0 %}
+        {% for key, value in stats %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            {% set total_paye = total_paye + value[0] %}
+            {% set total_engage = total_engage + value[1] %}
+            <td>{{ key }}</td>
+            <td align="right">{{ '%.2f' | format(value[0])|number_format(2, '.', ' ') }}</td>
+            <td align="right">{{ '%.2f' | format(value[1])|number_format(2, '.', ' ') }}</td>
+            <td align="right">{{ '%.2f' | format(value[0]+value[1])|number_format(2, '.', ' ') }}</td>
+        </tr>
+        {% endfor %}
+        <tr style="font-weight:bold">
+            <td>Total</td>
+            <td align="right">{{ '%.2f' | format(total_paye)|number_format(2, '.', ' ') }}</td>
+            <td align="right">{{ '%.2f' | format(total_engage)|number_format(2, '.', ' ') }}</td>
+            <td align="right">{{ '%.2f' | format(total_paye+total_engage)|number_format(2, '.', ' ') }}</td>
+        </tr>
+    </tbody>
+</table>
+<table width="90%">
+  <tr>
+    <td height="40"></td>
+  </tr>
+</table>
+<table width="90%">
+  <tr>
+    <td><img src="http://chart.apis.google.com/chart?chxr=0,2008,2012|1,{{ min_e }},{{ max_e }}&chxt=x,y&chbh=a&chs=450x300&cht=bvg&chco=33FF00,FF3300&chds={{ min_e }},{{ max_e }},{{ min_p }},{{ max_p }}&chd=t:{{ values }}&chdl=Payé|Engagé&chtt=Statistiques+des+bon+de+commande+par+année&chts=000000,11.5" alt="" /></td>
+
+    <td width="50%"><img src="http://chart.apis.google.com/chart?chs=450x270&cht=p&chco=33FF00,FF3300&chd=t:{{pie_data[0]}}|{{pie_data[1]}}&chd=s1:Gf,fl9YMYS&chdl=Payé|Engagé&chp=0.1&chl=Payé|Engagé&chtt=Statistiques+global+sur+les+bon+de+commande+{{panneeBc}}&chts=000000,11.5&chl={{'%.2f' | format((pie_data[0]/(pie_data[0]+pie_data[1]))*100)}}|{{'%.2f' | format((pie_data[1]/(pie_data[0]+pie_data[1]))*100)}}" alt="" style="margin-top:25px" /></td>
+  </tr>
+  </table>
+
+
+

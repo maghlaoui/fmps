@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Eauelectricite" table="eauelectricite">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fournisseur" type="string" column="fournisseur" length="125"/>
+    <field name="ecoleId" type="integer" column="ecole_id"/>
+    <field name="service" type="boolean" column="service"/>
+    <field name="numfacture" type="string" column="numfacture"/>
+    <field name="datefacture" type="string" column="datefacture"/>
+    <field name="modefacturation" type="string" column="modefacturation"/>
+    <field name="periodedebut" type="date" column="periodedebut"/>
+    <field name="periodefin" type="date" column="periodefin"/>
+    <field name="montant" type="decimal" column="montant"/>
+    <field name="penalite" type="decimal" column="penalite"/>
+    <field name="datepaiement" type="date" column="datePaiement"/>
+    <field name="typepaiement" type="string" column="typePaiement"/>
+    <field name="numcheque" type="string" column="numCheque"/>
+    <field name="numvirement" type="string" column="numVirement"/>
+		<field name="fichier" type="string" column="fichier"/>
+		<field name="path" type="string" column="path"/>
+    <field name="createdAt" type="datetime" column="created_at"/>
+    <field name="updatedAt" type="datetime" column="updated_at"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,138 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<h3>Détail d'une école</h3>
+<div class="tab-pane active" id="home">
+<table class="table table-hover">
+    <tbody>
+        {% if entity.path %}
+        <tr>
+            <th valign="top">Photo</th>
+            <td><img src="{{ asset(entity.webPath) }}" alt="{{ entity.nom }}" /></td>
+        </tr>
+				{% endif %}
+        <tr>
+            <th width="25%">Nom</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ entity.adresse }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{ entity.ville }}</td>
+        </tr>
+        <tr>
+            <th>Réseau préscolaire</th>
+            <td>{{ entity.ReseauPrescolaire }}</td>
+        </tr>
+        <tr>
+            <th>Numéro de téléphone</th>
+            <td>{{ entity.tel1 }} {% if entity.tel2 %} - {{ entity.tel2 }} {% endif %}</td>
+        </tr>
+        <tr>
+            <th>Fax</th>
+            <td>{{ entity.fax }}</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>{{ entity.email }}</td>
+        </tr>
+        <tr>
+            <th>Lattitude</th>
+            <td>{{ entity.lattitude }}</td>
+        </tr>
+        <tr>
+            <th>Longitude</th>
+            <td>{{ entity.longitude }}</td>
+        </tr>
+        <tr>
+            <th>Superficie</th>
+            <td>{{ entity.superficie }}</td>
+        </tr>
+        <tr>
+            <th>Nom du compte bancaire</th>
+            <td>{{ entity.nomCompteBancaire }}</td>
+        </tr>
+        <tr>
+            <th>Numéro du compte bancaire</th>
+            <td>{{ entity.numeroCompte }}</td>
+        </tr>
+        <tr>
+            <th>Numéro du RIB</th>
+            <td>{{ entity.numeroRib }}</td>
+        </tr>
+        <tr>
+            <th>Date d'ouverture</th>
+            <td>{{ entity.dateOuverture|date('d-m-Y') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('ecole') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('ecole_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    {% if ( is_granted('ROLE_SUPER_ADMIN') )  %}
+    <li>
+        <form action="{{ path('ecole_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+    {% endif %}
+</ul>
+</div>
+
+<h3>Staff</h3>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Nom</th>
+						<th>Fonction</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for af in affectations %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('employe_show', { 'id': af.employeId }) }}">{{ af.employe }}</a></td>
+						<td>{% if af.employe.fonctionId > 0 %}{{ af.employe.fonction }} {% endif %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h3>Offres de service</h3>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Année scolaire</th>
+						<th>Service</th>
+						<th>Catégorie</th>
+						<th>Montant</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for os in offres_service %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>{{ os.anneeScolaire }}</td>
+            <td>{{ os.service }}</td>
+						<td>{{ os.category }}</td>
+            <td>{{ os.montantService|number_format(2, '.', ' ') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des documents des employés</h3>
+
+<div class="pull-right">
+    <a href="{{ path('employedocument_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un document</span>
+    </a>
+</div>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Employé</th>
+            <th>Titre</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('employedocument_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.employe }}</td>
+            <td><a href="{{ asset(entity.webPath) }}" target="_blank">{{ entity.titre }}</a></td>
+            <td width="280">
+                <ul>
+	                    <li><a href="{{ path('employedocument_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+	                    <li><a href="{{ path('employedocument_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+	                    <li><a href="{{ path('employedocument_delete', { 'id': entity.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+	                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<script type="text/javascript">
+
+  $(function() 
+	{
+
+
+$("#navbar").children().attr("disabled","disabled");
+$('.dropdown-menu').hide();
+});
+
+
+</script>
+
+<ul class="nav nav-pills">
+  <li ><a href="{{ path('user_password_reset_first_use', { 'id': entity.id }) }}">1. Editer Mot de Passe</a></li>
+  <li class="active"><a href="{{ path('employe_edit_first', { 'id': entity.id }) }}" >2. Valider Profil</a></li>
+  <li ><a anchor.href="javascript:void(0)">3. Editer l'école</a></li>
+  
+</ul>
+<h1>Terminer Votre Profil</h1>
+
+<form action="{{ path('employe_direct_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    	{{ form_row(form._token) }} 
+    <div>
+		    {{ form_label(form.matricule) }}
+		    {{ form_widget(form.matricule,{ 'attr': { 'readonly': 'true' }}) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.nom) }}
+		    {{ form_widget(form.nom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.prenom) }}
+		    {{ form_widget(form.prenom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.tel) }}
+		    {{ form_widget(form.tel) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.flote) }}
+		    {{ form_widget(form.flote) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.cin) }}
+		    {{ form_widget(form.cin,{ 'attr': { 'readonly': 'true' } }) }}
+
+		</div>
+		
+		<div>
+		    {{ form_label(form.cnss) }}
+		    {{ form_widget(form.cnss,{ 'attr': { 'readonly': 'true' }}) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.rib) }}
+		    {{ form_widget(form.rib,{ 'attr': { 'readonly': 'true' }}) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.adresse) }}
+		    {{ form_widget(form.adresse) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.dateNaissance) }}
+		    {{ form_widget(form.dateNaissance) }}
+		</div>
+		
+		
+	
+		<div>
+		    {{ form_label(form.fichier) }}
+		    {{ form_widget(form.fichier) }}
+		</div>
+		
+    <p>
+        <button type="submit" class="btn btn-primary" >Valider Profil</button>
+    </p>
+<div class="row" style="position: absolute;top: 200px; right: 200px  "><div class="span4"><div class="alert alert-info">Chers collègues,
+
+Nous vous prions de bien vouloir valider vos informations personnelles lors de votre première connexion; ou d'effectuer éventuellement les changements nécessaires.
+Nous vous rappelons que vous avez l'obligation légale (article 22 du code de travail) de mettre à jour vos données personnelles dès qu'un changement dans votre situation devient effectif (changement d'adresse, situation familiale...). Nous vous prions de respecter cette procédure.
+Pour toute question relative à ce volet, merci de contacter le Département Ressources humaines par téléphone ou par e-mail: ybelmokadem@fmps.ma</div> 
+</div></div></div>
+</form>
+
+
+
+
+{% endblock %}

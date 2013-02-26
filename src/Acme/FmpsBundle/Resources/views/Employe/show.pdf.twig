@@ -1,0 +1,187 @@
+{% block body %}
+  <table width="90%">
+    <tbody>
+     {% if entity.webPath %}
+    	<tr>
+      	<td><img src="{{ asset(entity.webPath) }}" alt="{{ entity.fullName }}" /></td>
+        <td></td>
+      </tr>
+     {% endif %}
+
+     {% if entity.matricule %}
+      <tr>
+        <td><label style="font-weight:bold;">Matricule :</label></td>
+        <td>{{ entity.matricule }}</td>
+      </tr>
+     {% endif %}
+
+     {% if entity.nom %}
+      <tr>
+        <td><label style="font-weight:bold;">Nom :</label></td>
+        <td>{{ entity.nom }}</td>
+      </tr>
+     {% endif %}
+
+     {% if entity.prenom %}
+      <tr>
+        <td><label style="font-weight:bold;">Prénom :</label></td>
+        <td>{{ entity.prenom }}</td>
+      </tr> 
+     {% endif %}
+
+     {% if entity.tel %}
+      <tr>
+        <td><label style="font-weight:bold;">Téléphone :</label></td>
+        <td>{{ entity.tel }}</td>
+      </tr>
+     {% endif %}
+
+     {% if entity.flote %}
+     <tr>
+       <td><label style="font-weight:bold;">Flote :</label></td>
+       <td>{{ entity.flote }}</td>
+     </tr>
+     {% endif %}
+
+     {% if entity.cin %}
+     <tr>
+       <td><label style="font-weight:bold;">Cin :</label></td>
+       <td>{{ entity.cin }}</td>
+     </tr>
+     {% endif %}
+
+     {% if entity.cnss %}
+	    <tr>
+        <td><label style="font-weight:bold;">Cnss :</label></td>
+        <td>{{ entity.cnss }}</td>
+      </tr>
+     {% endif %}
+
+     {% if entity.rib %}
+	   <tr>
+       <td><label style="font-weight:bold;">Rib :</label></td>
+       <td>{{ entity.rib }}</td>
+     </tr> 
+     {% endif %}
+
+     {% if entity.adresse %}
+     <tr>
+       <td><label style="font-weight:bold;">Adresse :</label></td>
+       <td>{{ entity.adresse }}</td>
+     </tr>
+     {% endif %}
+
+     {% if entity.dateNaissance %}
+	   <tr>
+       <td><label style="font-weight:bold;">Date de naissance :</label></td>
+       <td>{% if entity.dateNaissance %}{{ entity.dateNaissance|date('d-m-Y') }}{% endif%}</td>
+     </tr>
+     {% endif %}
+
+     {% if superieur %}
+     <tr>
+       <td><label style="font-weight:bold;">Supérieur :</label></td>
+       <td>{{ entity.superieur }}</td>
+     </tr>
+     {% endif %}
+
+     {% if entity.fonction %}
+     <tr>
+       <td><label style="font-weight:bold;">Fonction :</label></td>
+       <td>{{ entity.fonction }}</td>
+     </tr>
+     {% endif %}
+   </table>
+
+   <h3>Informations sur le compte :</h3>
+   
+   {%  if user %}
+   <table style="border: 1px solid #000; padding:5px">
+   	 <tr>
+       <td style="font-weight:bold;">Email </td>
+       <td>{{ user.email }}</td>
+     </tr>
+     <tr>
+       <td style="font-weight:bold;">Identifiant </td>
+       <td>{{ user.username }}</td>
+     </tr>
+     <tr>
+       <td style="font-weight:bold;">Rôles </td>
+       <td>
+	      {% for role in user.roles %}
+         -  {% if role in default_roles|keys %} {{ default_roles[role] }} {% endif %}
+        {% endfor %}
+       </td>
+     </tr>
+   </table>
+  <br />
+  {% endif %}
+
+  <h3>Affectations :</h3>
+  <table style="border: 1px solid #000; padding:5px">
+    <tr>
+      <th style="font-weight:bold;">Affectation</th>
+      <th style="font-weight:bold;">Date d'entrée</th>
+      <th style="font-weight:bold;">Date de fin</th>
+    </tr>
+    {% for affectation in entity.affectations %}
+    <tr>
+      <td><span>{{ affectation.ecole }}</span></td>
+      <td>{% if affectation.dateDebutAffectation %}{{ affectation.dateDebutAffectation|date('d-m-Y') }}{% endif%}</td>
+      <td>{% if affectation.dateFinAffectation %}{{ affectation.dateFinAffectation|date('d-m-Y') }}{% endif%}</td>
+    </tr>
+ {% endfor %}
+  </table>
+
+  <br />
+  <h3>Fonctions :</h3>
+  <table style="border: 1px solid #000; padding:5px">
+    <tr>
+      <th style="font-weight:bold;">Fonction</th>
+      <th style="font-weight:bold;">Date de début</th>
+      <th style="font-weight:bold;">Date de fin</th>
+    </tr>
+    {% for fonction in entity.fonctions %}
+    <tr>
+      <td><span>{{ fonction.fonction }}</span></td>
+      <td>{% if fonction.dateDebutFonction %}{{ fonction.dateDebutFonction|date('d-m-Y') }}{% endif%}</td>
+      <td>{% if fonction.dateFinFonction %}{{ fonction.dateFinFonction|date('d-m-Y') }}{% endif%}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <br />
+  <h3>Absences :</h3>
+	<table style="border: 1px solid #000;; padding:5px" >
+    <tr>
+      <th style="font-weight:bold;">Du</th>
+      <th style="font-weight:bold;">Au</th>
+      <th style="font-weight:bold;">Motif</th>
+			<th style="font-weight:bold;">Justifié</th>
+			<th style="font-weight:bold;">Commentaire</th>
+    </tr>
+    {% for absence in entity.absences %}
+    <tr>
+      <td>{% if absence.du %}{{ absence.du|date('Y-m-d') }}{% endif %}</td>
+      <td>{% if absence.au %}{{ absence.au|date('Y-m-d') }}{% endif %}</td>
+      <td>{{ absence.motif }}</td>
+      <td>{{ absence.justifie == 1 ? 'oui' : 'non' }}</td>
+      <td>{{ absence.commentaire }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+	<br />
+  <h3>Documents :</h3>
+  <table style="border: 1px solid #000;; padding:5px" >
+    <tr>
+      <th style="font-weight:bold;">Nom</th>
+    </tr>
+    {% for document in entity.documents %}
+    <tr>
+      <td><span>{{ document.titre }}</span></td>
+    </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}

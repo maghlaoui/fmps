@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des services</h3>
+
+<div class="pull-right">
+    <a href="{{ path('service_new') }}">
+       <span><i class="icon-plus-sign icon-white"></i> Ajouter un service</span>
+    </a>
+</div>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun service n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">{{ entities.sortable('Id', 's.id')|raw }}</th>
+            <th>{{ entities.sortable('Libellé', 's.libelleService')|raw }}</th>
+            <th>{{ entities.sortable('Dem service', 's.demService')|raw }}</th>
+						<th>{{ entities.sortable('Obligatoire', 's.obligatoire')|raw }}</th>
+						<th>{{ entities.sortable('Période', 's.periode')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('service_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.libelleService }}</td>
+            <td>{{ entity.demService }}</td>
+						<td>{{ entity.obligatoire == 1 ? 'oui' : 'non' }}</td>
+						<td>{{ entity.periode }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('service_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('service_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des inscriptions aux offres de service</h3>
+<div class="pull-right">
+    <a href="{{ path('inscriptionoffreservice_new') }}">
+       <span><i class="icon-plus-sign icon-white"></i> Ajouter une offre de service</span>
+    </a>
+</div>
+
+<form action="{{ path('inscriptionoffreservice') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.inscription) }}</td>
+            <td>{{ form_label(form.offreService) }}</td>
+            <td>{{ form_label(form.mois) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.inscription) }}</td>
+            <td>{{ form_widget(form.offreService) }}</td>
+            <td>{{ form_widget(form.mois) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Id', 'i.id')|raw }}</th>
+            <th>{{ entities.sortable('Offre de service', 'i.offreServiceId')|raw }}</th>
+            <th>{{ entities.sortable('Enfant', 'i.inscriptionId')|raw }}</th>
+            <th>{{ entities.sortable('Mois', 'i.mois')|raw }}</th>
+            <th>{{ entities.sortable('Status', 'i.valide')|raw }}</th>
+						<th>Commentaire</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('inscriptionoffreservice_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.offreService }}</td>
+            <td>{{ entity.inscription }}</td>
+            <td>{{ entity.mois }}</td>
+            <td>{{ entity.statusStr }}</td>
+						<td>{{ entity.commentaire }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('inscriptionoffreservice_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('inscriptionoffreservice_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Statistiques des immobilisations</h3>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Rubrique</th>
+			{% for annee in annees %}
+			<th>{{ annee }}</th>
+			{% endfor %}
+            <th>Total général</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key, value in stats %}
+        <tr>
+            <td>{{ key }}</td>
+			{% set total = 0 %}
+			{% for annee in annees %}
+			<td align="right">{{ value[annee]|number_format(2, '.', ' ') }}</td>
+			{% set total = total+value[annee] %}
+			{% endfor %}
+            <td align="right">{{ total|number_format(2, '.', ' ') }}</td>
+        </tr>
+    {% endfor %}
+		<tr class="bold">
+			<td align="right">Total général</td>
+			{% set total_general = 0 %}
+			{% for stat_sum in stats_sum %}
+			{% set total_general = total_general + stat_sum %}
+			<td align="right">{{ stat_sum|number_format(2, '.', ' ') }}</td>
+			{% endfor %}
+			<td align="right">{{total_general|number_format(2, '.', ' ')}}</td>
+		</tr>
+    </tbody>
+</table>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+   
+    // Column chart
+    data = new google.visualization.DataTable();
+    data.addColumn('string', 'Année');
+	 {% for key, value in stats %}
+	data.addColumn('number', '{{ key }}');
+	{% endfor %}
+
+    data.addRows({{ annees|length}});
+    {% for annee in annees %}
+    data.setValue(0, 0, '{{ annee }}');
+    {% set index = loop.index-1 %}
+    {% for key, value in stats %}
+    {% set s_index = loop.index %}
+	{% for key, val in value %}
+	{% if key == annee %}
+	data.setValue({{ index }}, {{ s_index }}, {{ val|number_format(2, '.', '') }});
+	{% endif %}
+	{% endfor %}
+    {% endfor %}
+    {% endfor %}
+
+    var options = {
+      title: 'Statistiques des immobilisations',
+      colors: ['#33FF00','#FF3300','#FF9E01','#00FFFF','#2A0CD0'],
+      legendTextStyle: {color:'#000000'},
+      hAxis: {title: 'Année', titleTextStyle: {color: 'red'}},
+      vAxis: {title: 'Total', titleTextStyle: {color: 'red'}},
+	  isStacked: true,
+      width: 900, 
+      height: 500,
+      legend: {position: 'bottom', textStyle: {color: 'black', fontSize: 12}}
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('column_div'));
+    chart.draw(data, options);
+  }
+</script>
+<div id="column_div" style="width: 900px; height: 500px; ; float:left"></div>
+
+{% endblock %}

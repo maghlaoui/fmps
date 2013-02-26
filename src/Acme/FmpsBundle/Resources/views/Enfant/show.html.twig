@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Détails d'un enfant</h3>
+
+<table class="table table-hover">
+    <tbody>
+				<tr>
+            <td><img src="{{ asset(entity.webPath) }}" alt="{{ entity.nom }}" /></td>
+						<td></td>
+        </tr>
+        <tr>
+            <td>Id</td>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <td>Nom</td>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <td>Prénom</td>
+            <td>{{ entity.prenom }}</td>
+        </tr>
+        <tr>
+            <td>Sexe</td>
+            <td>{{ entity.sexe }}</td>
+        </tr>
+        <tr>
+            <td>Date de naissance</td>
+            <td>{% if entity.dateNaissance %}{{ entity.dateNaissance|date('Y-m-d') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Lieu de naissance</td>
+            <td>{{ entity.lieuNaissance}}</td>
+        </tr>
+        <tr>
+            <td>Nationalite</td>
+            <td>{{ entity.nationalite }}</td>
+        </tr>
+        <tr>
+            <td>Ex école</td>
+            <td>{{ entity.ecoleFreq }}</td>
+        </tr>
+        <tr>
+            <td>Ecole</td>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('enfant') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('enfant_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('enfant_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

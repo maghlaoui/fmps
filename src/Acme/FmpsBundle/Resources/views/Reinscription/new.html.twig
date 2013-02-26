@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Réinscription</h3>
+
+<form action="{{ path('reinscription_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+   
+      {{ form_widget(form) }}
+				
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('inscription') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

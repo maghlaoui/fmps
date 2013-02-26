@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="PartenariatPartenaire" table="partenariat_partenaire">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="partenariatId" type="integer" column="partenariat_id"/>
+    <field name="partenaireId" type="integer" column="partenaire_id"/>
+    <field name="typeEngagementId" type="integer" column="type_engagement_id"/>
+    <field name="typeContributionId" type="integer" column="type_contribution_id"/>
+    <field name="montantParticipation" type="decimal" column="montant_participation"/>
+    <field name="montantRecu" type="decimal" column="montant_recu"/>
+    <field name="detail" type="string" column="detail" length="255"/>
+    <field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+  </entity>
+</doctrine-mapping>

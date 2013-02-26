@@ -1,0 +1,44 @@
+{# src/Acme/FmpsBundle/Resources/views/Default/index.html.twig #}
+ {% extends '::base.html.twig' %}
+ {% block body %}
+  <style type="text/css">
+   table.curvedEdges { border:10px solid RoyalBlue;-webkit-border-radius:13px;-moz-border-radius:13px;-ms-border-radius:13px;-o-border-radius:13px;border-radius:13px; }
+   table.curvedEdges td, table.curvedEdges th { border-bottom:1px dotted black;padding:5px; }
+  </style>
+{% set a=0 %}{% set c=0 %}{% set b=0 %}
+ {% for entity in entities %}
+  {% if a != entity.rid  %}
+   {% set c=0 %}
+{% set b=0 %}
+    <table class="curvedEdges">
+     <tr>
+       <th>Rubrique {{entity.rid}} : {{ entity.rubrique }}</th>
+     </tr>
+     <tr>
+       <td>Actualité {{entity.actualite}} : {{ entity.content }}</td>
+     </tr>
+  
+   {% else%}
+    {% set c=c+1 %}
+
+    {% if c>=3 %}
+{% if b<1 %}
+    <tr>
+      <td><a id="lien" style="float:right" href="{{ path('default_show', { 'id': entity.rid}) }}"><span class="detail">plus</span></a></td>
+ {% set b=b+1 %}    
+</tr>
+{% endif %}
+   {% else %}
+
+<br>
+     <tr>
+       <td>Actualité {{entity.actualite}} : {{ entity.content }}</td>
+     </tr>
+
+    {%endif%}
+   {%endif%}
+  {%set a = entity.rid %}
+ {% endfor %}
+ </table> 
+{% endblock %}
+

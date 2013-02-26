@@ -1,0 +1,165 @@
+<table width="90%">
+    <tbody>
+        <tr>
+            <td width="75%" align="left"  class="bold">Imputation</td>
+            <td align="center"  class="bold">Bon de commande</td>
+        </tr>
+    </tbody>    
+</table>
+
+<table width="90%">
+    <tbody>
+        <tr>
+            <td width="75%"><span class="bold">Intitulé de la rubrique: </span>{{ entity.rubrique.intitule }}</td>
+            <td align="center"><span class="bold">N° B.C: </span>{{ entity.numero }}</td>
+        </tr>
+        <tr>
+            <td><span class="bold">Chapitre: </span>{{ entity.rubrique.chapitre }}</td>
+            <td align="center"><span class="bold">Rabat le: </span>le {{ entity.dateBc|localeDate('long','none') }}</td>
+        </tr>
+        <tr>
+            <td><span class="bold">Article: </span>{{ entity.rubrique.article }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="bold">Paragraphe: </span>{{ entity.rubrique.paragraphe }}</td>
+            <td></td>
+        </tr>
+    </tbody>    
+</table>
+<br />
+<table width="90%">
+    <tbody>
+        <tr>
+            <td><span class="bold">Nom fournisseur: </span>{{ entity.fournisseur.nom }}</td>
+        </tr>
+        {% if entity.fournisseur.adresse is not none %}
+        <tr>
+            <td><span class="bold">Adresse: </span>{{ entity.fournisseur.adresse }}</td>
+        </tr>
+        {% endif %}
+        {% if entity.fournisseur.telephone is not none %}
+        <tr>
+            <td><span class="bold">Tél.: </span>{{ entity.fournisseur.telephone }}</td>
+        </tr>
+        {% endif %}
+        {% if entity.fournisseur.fax is not none %}
+        <tr>
+            <td><span class="bold">Fax: </span>{{ entity.fournisseur.fax }}</td>
+        </tr>
+        {% endif %}
+        {% if entity.fournisseur.registreCommerce is not none %}
+         <tr>
+            <td><span class="bold">RC n°: </span>{{ entity.fournisseur.registreCommerce }}</td>
+        </tr>
+        {% endif %}
+        {% if entity.fournisseur.numeroPatente is not none %}
+        <tr>
+            <td><span class="bold">Patente n°: </span>{{ entity.fournisseur.numeroPatente }}</td>
+        </tr>
+        {% endif %}
+        {% if entity.fournisseur.identifiantFiscale is not none %}
+        <tr>
+            <td><span class="bold">Id. Fisc: </span>{{ entity.fournisseur.identifiantFiscale }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td><span class="bold">Objet du B.C: </span>{{ entity.objet }}</td>
+        </tr>
+    </tbody>    
+</table>
+<br /><br /><br />
+<table border="1" style="padding:2px; border-collapse:collapse;" width="90%">
+    <thead>
+        <tr align="center">
+            <th width="{{entity.ttc == 0 ? '350' : '425'}}">Désignation</th>
+            <th width="50">Qte</th>
+            {% if entity.ttc == 0 %}
+            <th width="120">Prix unitaire HT</th>
+            <th width="75">Taux TVA</th>
+            <th width="100">TOTAL HT</th>
+            {% else %}
+            <th width="120">Prix unitaire TTC</th>
+            <th width="100">TOTAL TTC</th>
+            {% endif %}            
+        </tr>
+    </thead>
+    <tbody>
+        {% set chars_count = 0 %}
+    	{% set tva = 0 %}
+        {% set total_ht = 0 %}
+    	{% for article_bon_commande in articles %}
+    	{% set tva = tva + article_bon_commande.totalTva %}
+        {% set chars_count = chars_count + article_bon_commande.article.getTitleLength() %}
+        {% set total_ht = total_ht + article_bon_commande.totalHt %}
+        <tr>
+            <td width="{{entity.ttc == 0 ? '350' : '425'}}">{{ article_bon_commande.article.designation }}<br />
+            {% if article_bon_commande.article.description %} <i>Description: {{ article_bon_commande.article.description }}</i> {% endif %}
+            </td>
+            <td align="right" width="50">{{ article_bon_commande.quantite }} {{ article_bon_commande.unite }}</td>
+            <td align="right" width="120">{{ article_bon_commande.prixUnitaire|number_format(2, '.', ' ') }}</td>
+            {% if entity.ttc == 0 %}
+            <td align="right" width="75">{{ article_bon_commande.tva }}</td>
+            {% endif %}
+            <td align="right" width="100">{{ article_bon_commande.totalHt|number_format(2, '.', ' ') }}</td>
+        </tr>
+        {% endfor %}
+        {% if entity.ttc == 0 %}
+        <tr class="bold">
+            <td colspan="4" align="right">TOTAL HT</td>
+            <td align="right">{{ total_ht|number_format(2, '.', ' ') }}</td>
+        </tr>
+				{% if entity.remise > 0 %}
+        <tr class="bold">
+            <td colspan="4" align="right">Remise de {{ entity.remise }}%</td>
+            <td align="right">{{ (total_ht*entity.remiseFor)|number_format(2, '.', ' ') }}</td>
+        </tr>
+				{% endif %}
+        {% if groupe_tva|length > 1 %}
+        {% for t in groupe_tva %}
+        <tr class="bold">
+            <td valign="top" colspan="4" align="right">TVA {{ t.tva }}%</td>
+            <td valign="top" align="right">{{ t[1]|number_format(2, '.', ' ') }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        <tr class="bold">
+            <td valign="top" colspan="4" align="right">TOTAL TVA </td>
+            <td valign="top" align="right">{{ (tva*entity.remiseFor)|number_format(2, '.', ' ') }}</td>
+        </tr>
+        {% endif %}
+        <tr class="bold">
+            <td colspan="{{ entity.ttc == 0 ? '4' : '3'}}" align="right">TOTAL TTC</td>
+            <td align="right">{{ (total)|number_format(2, '.', ' ') }}</td>
+        </tr>
+</table>
+<br /><br />
+<!--<br /><br /><br />-->
+<p class="bold pl2">Arrêté le présent bon de commande à la somme de : {{ total_str }} TTC</p>
+<table width="90%">
+    <tbody>
+    	<tr>
+    	  <td class="fs11" width="50%">1. Veuillez présenter deux copies de votre facture cachetée, datée et arrêtée en lettres et en chiffres accompagnée du bon de livraison.</td>
+          <td width="10%"></td>    		  
+          <td width="20%"></td>
+    	  <td width="20%"></td>
+      </tr>
+      <tr>
+    	  <td class="fs11">2. Veuillez nous informer immédiatement si vous n'êtes pas en mesure d'expédier la commande telle 
+           que spécifiée.</td>
+    	  <td colspan="3"></td>
+      </tr>
+      <tr class="fs11">
+    	  <td></td>
+          <td></td>
+    	  <td align="left" style="border-top:1px solid #000;">Service Achat et logistique</td>
+    	  <td align="right" style="border-top:1px solid #000;">L'ordonnateur</td>
+      </tr>
+    </tbody>
+</table>
+
+<style>
+.bold{font-weight:bold;}
+th{font-weight:bold;}
+.fs11{font-size:11px;}
+</style>

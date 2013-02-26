@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Contact</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nomContact }}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ entity.prenomContact }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone 1</th>
+            <td>{{ entity.tel1Contact }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone 2</th>
+            <td>{{ entity.tel2Contact }}</td>
+        </tr>
+        <tr>
+            <th>Fax</th>
+            <td>{{ entity.faxContact }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ entity.mailContact }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ entity.statusContact }}</td>
+        </tr>
+		<tr>
+            <th>Créé le</th>
+            <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Dernière mise à jour</th>
+            <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('contact') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('contact_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('contact_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

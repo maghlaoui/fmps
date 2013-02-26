@@ -1,0 +1,41 @@
+{# src/Acme/FmpsBundle/Resources/views/Default/index.html.twig #}
+ {% extends '::base.html.twig' %}
+
+ {% block body %}
+
+<style type="text/css">
+table.curvedEdges { border:10px solid RoyalBlue;-webkit-border-radius:13px;-moz-border-radius:13px;-ms-border-radius:13px;-o-border-radius:13px;border-radius:13px; }
+table.curvedEdges td, table.curvedEdges th { border-bottom:1px dotted black;padding:5px; }
+</style>
+{% set a=0 %}
+
+
+   {% for entity in entities %}
+{% if a != entity.rid  %}
+
+
+<table class="curvedEdges">
+<tr>
+ <th>Rubrique {{entity.rid}} : {{ entity.rubrique }}</th></tr>
+<tr><td>Actualité {{entity.actualite}} : {{ entity.content }}</td></tr>
+
+
+{% else%}
+
+
+<tr ><td>Actualité {{entity.actualite}} : {{ entity.content }}</td></tr>
+ 
+
+
+{%endif%}
+  
+ {%set a = entity.rid %}
+
+  {% endfor %}
+
+</table> 
+
+
+
+ {% endblock %}
+

@@ -1,0 +1,77 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Facture</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Bon commande</th>
+            <td>{{ entity.bonCommandeId ? entity.bonCommande : entity.bonCommandeId }}</td>
+        </tr>
+        <tr>
+            <th>Numéro</th>
+            <td>{{ entity.numero }}</td>
+        </tr>
+        <tr>
+            <th>Date de facture</th>
+            <td>{% if entity.dateCreation %}{{ entity.dateCreation|date('d-m-Y') }}{% endif%}</td>
+        </tr>
+        <tr>
+            <th>Montant TTC</th>
+            <td>{{ entity.montant }}</td>
+        </tr>
+        <tr>
+            <th>Etat</th>
+            <td>{{ entity.etat }}</td>
+        </tr>
+        <tr>
+            <th>Date de paiement</th>
+            <td>{% if entity.datePaiement %}{{ entity.datePaiement|date('d-m-Y') }}{% endif%}</td>
+        </tr>
+        <tr>
+            <th>Date de prévision de paiement</th>
+            <td>{% if entity.datePrevisionPaiement %}{{ entity.datePrevisionPaiement|date('d-m-Y') }}{% endif%}</td>
+        </tr>
+        <tr>
+            <th>Type de paiement</th>
+            <td>{{ entity.typePaiement }}</td>
+        </tr>
+        <tr>
+            <th>Fichier</th>
+            <td><a href="{{ asset(entity.webPath) }}">{{ entity.path }}</a></td>
+        </tr>
+		<tr>
+            <th>Créé le</th>
+            <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Dernière mise à jour</th>
+            <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('facture') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('facture_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('facture_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

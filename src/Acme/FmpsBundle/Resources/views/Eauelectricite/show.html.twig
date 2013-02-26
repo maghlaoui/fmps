@@ -1,0 +1,99 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Facture d'eau et d'électricité</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+				<tr>
+            <th>Budget</th>
+            <td>{{ entity.budget }}</td>
+        </tr>
+				<tr>
+            <th>Fournisseur</th>
+            <td>{{ entity.fournisseur }}</td>
+        </tr>
+        <tr>
+            <th>Service</th>
+            <td>{{ entity.service }}</td>
+        </tr>
+        <tr>
+            <th>Numéro de facture</th>
+            <td>{{ entity.numfacture }}</td>
+        </tr>
+        <tr>
+            <th>Date de facture</th>
+            <td>{{ entity.datefacture|date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <th>Mode de facturation</th>
+            <td>{{ entity.modefacturation }}</td>
+        </tr>
+        <tr>
+            <th>Début de période</th>
+            <td>{{ entity.periodedebut|date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <th>Fin de période</th>
+            <td>{{ entity.periodefin|date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <th>Montant</th>
+            <td>{{ entity.montant }}</td>
+        </tr>
+        <tr>
+            <th>Pénalité</th>
+            <td>{{ entity.penalite }}</td>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td>{{ entity.total|number_format(2, '.', ' ') }}</td>
+        </tr>
+        <tr>
+            <th>Date de paiement</th>
+            <td>{% if entity.datepaiement %}{{ entity.datepaiement|date('d-m-Y') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Type de paiement</th>
+            <td>{{ entity.typepaiement }}</td>
+        </tr>
+        <tr>
+            <th>Numéro de Chèque/Virement</th>
+            <td>{{ entity.numcheque }}</td>
+        </tr>
+				{% if entity.path %}
+				<tr>
+            <th>Fichier</th>
+            <td><a href="{{ asset(entity.webPath) }}" target="_blank">Télécharger la facture</a></td>
+        </tr>
+				{% endif %}
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('eauelectricite') }}">
+             <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('eauelectricite_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('eauelectricite_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="delete"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

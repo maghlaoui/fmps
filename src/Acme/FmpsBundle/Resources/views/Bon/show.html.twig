@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Bon</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+				<tr>
+            <th>Budget</th>
+            <td>{{ entity.budget }}</td>
+        </tr>
+        <tr>
+            <th>Fournisseur</th>
+            <td>{{ entity.fournisseur }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{% if entity.date %}{{ entity.date|date('Y-m-d') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Patente</th>
+            <td>{{ entity.patente }}</td>
+        </tr>
+        <tr>
+            <th>Objet</th>
+            <td>{{ entity.objet}}</td>
+        </tr>
+        <tr>
+            <th>Montant</th>
+            <td>{{ entity.montant|number_format(2, '.', ' ')  }}</td>
+        </tr>
+{% if entity.datePaiement %}
+        <tr>
+            <th>Date Paiement</th>
+            <td>{% if entity.datePaiement %}{{ entity.datePaiement|date('d-m-Y') }}{% endif %}</td>
+        </tr>
+{% endif%}
+{% if entity.path %}
+        <tr>
+            <th>Attachement</th>
+        <td><a href="{{ asset(entity.webPath) }}" target="_blank">{{ entity.path }}</a></td>
+        </tr>
+{% endif%}
+    </tbody>
+</table>
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('bon') }}">
+             <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('bon_edit', { 'id': entity.id }) }}">
+             <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('bon_delete', { 'id': entity.id }) }}" method="post">
+         {{ form_widget(delete_form) }}
+             <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

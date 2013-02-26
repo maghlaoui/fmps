@@ -1,0 +1,75 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des partenaires par partenariat</h3>
+
+<div class="pull-right">
+    <a href="{{ path('partenariatpartenaire_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un partenaire</span>
+    </a>
+</div>
+
+<form action="{{ path('partenariatpartenaire') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.partenariat) }}</td>
+            <td>{{ form_label(form.partenaire) }}</td>
+            <td>{{ form_label(form.type_engagement) }}</td>
+            <td>{{ form_label(form.type_contribution) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.partenariat) }}</td>
+            <td>{{ form_widget(form.partenaire) }}</td>
+            <td>{{ form_widget(form.type_engagement) }}</td>
+            <td>{{ form_widget(form.type_contribution) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun partenaire n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">{{ entities.sortable('Id', 'p.id')|raw }}</th>
+            <th>{{ entities.sortable('Partenariat', 'p.partenariatId')|raw }}</th>
+            <th>{{ entities.sortable('Partenaire', 'p.partenaireId')|raw }}</th>
+            <th>{{ entities.sortable("Type d'engagement", 'p.typeEngagementId')|raw }}</th>
+            <th>{{ entities.sortable('Montant de participation', 'p.montantParticipation')|raw }}</th>
+						<th>{{ entities.sortable('Montant reçu', 'p.montantRecu')|raw }}</th>
+            <th>{{ entities.sortable('Périodicité', 'p.periodicite')|raw }}</th>
+            <th>{{ entities.sortable('Détail', 'p.detail')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('partenariatpartenaire_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a href="{{ path('partenariat_show', { 'id': entity.partenariatId }) }}">{{ entity.partenariat }}</a></td>
+            <td><a href="{{ path('partenaire_show', { 'id': entity.partenaireId }) }}">{{ entity.partenaire }}</a></td>
+            <td><a href="{{ path('typeengagement_show', { 'id': entity.typeEngagementId }) }}">{{ entity.typeEngagement }}</a></td>
+            <td align="right">{{ entity.montantParticipation|number_format(2, '.', ' ') }}</td>
+			<td align="right">{{ entity.montantRecu|number_format(2, '.', ' ') }}</td>
+            <td><a href="{{ path('typecontribution_show', { 'id': entity.typeContributionId }) }}">{{ entity.typeContribution }}</a></td>
+            <td>{{ entity.detail }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('partenariatpartenaire_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('partenariatpartenaire_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

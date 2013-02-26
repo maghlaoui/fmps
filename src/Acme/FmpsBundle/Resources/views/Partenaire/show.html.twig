@@ -1,0 +1,110 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Partenaire</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th width="200">Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nomPartenaire }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ entity.adressePartenaire }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone 1</th>
+            <td>{{ entity.tel1Partenaire }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone 2</th>
+            <td>{{ entity.tel2Partenaire }}</td>
+        </tr>
+        <tr>
+            <th>Fax</th>
+            <td>{{ entity.faxPartenaire }}</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>{{ entity.mailPartenaire }}</td>
+        </tr>
+        <tr>
+            <th>Site web</th>
+            <td>{{ entity.siteWebPartenaire }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{ entity.ville }}</td>
+        </tr>
+		<tr>
+            <th>Créé le</th>
+            <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Dernière mise à jour</th>
+            <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Contacts:</h3>
+<div class="pull-right">
+    <a href="{{ path('contact_new', { 'partenaire_id': entity.id }) }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un contact</span>
+    </a>
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Téléphone 1</th>
+            <th>Téléphone 2</th>
+            <th>Fax</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th width="75">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for contact in entity.contacts %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('contact_show', { 'id': contact.id }) }}">{{ contact.id }}</a></td>
+            <td>{{ contact.nomContact }}</td>
+            <td>{{ contact.prenomContact }}</td>
+            <td>{{ contact.tel1Contact }}</td>
+            <td>{{ contact.tel2Contact }}</td>
+            <td>{{ contact.faxContact }}</td>
+            <td>{{ contact.mailContact }}</td>
+            <td>{{ contact.statusContact }}</td>
+            <td><a href="{{ path('contact_edit', { 'id': contact.id }) }}"><span class="edit">Editer</span></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('partenaire') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('partenaire_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('partenaire_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

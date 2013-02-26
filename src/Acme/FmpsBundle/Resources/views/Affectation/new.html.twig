@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Ajouter une affectation</h3>
+<form action="{{ path('affectation_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+
+		{% include "AcmeFmpsBundle:Default:submit.html.twig" %}
+		
+</form>
+
+{% endblock %}

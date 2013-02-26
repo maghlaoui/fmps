@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des budgets par école</h3>
+
+{% if ( is_granted('ROLE_DC') )  %}
+<div class="pull-right">
+    <a href="{{ path('ecolebudget_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un budget aux écoles</span>
+    </a>
+</div>
+{% endif %}
+
+<form action="{{ path('ecolebudget') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.ecole) }}</td>
+						<td>{{ form_label(form.budget) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.ecole) }}</td>
+						<td>{{ form_widget(form.budget) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun budget n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Id', 'eb.id')|raw }}</th>
+            <th>{{ entities.sortable('Ecole', 'eb.ecoleId')|raw }}</th>
+            <th>{{ entities.sortable('Budget', 'b.rubriqueId')|raw }}</th>
+            <th>{{ entities.sortable('Année', 'b.annee')|raw }}</th>
+            <th>{{ entities.sortable('Montant', 'b.montant')|raw }}</th>
+            {% if ( is_granted('ROLE_DC') )  %}<th width="150">Actions</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td width="25">{{ entity.id }}</td>
+						<td>{{ entity.ecole }}</td>
+						<td>{{ entity.budget.rubrique }}</td>
+            <td>{{ entity.budget.annee }}</td>
+            <td align="right">{{ entity.budget.montant|number_format(2, '.', ' ') }}</td>
+						{% if ( is_granted('ROLE_DC') )  %}
+            <td>
+                <ul>
+                     <li><a href="{{ path('ecolebudget_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+	                    <li><a href="{{ path('ecolebudget_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+						{% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

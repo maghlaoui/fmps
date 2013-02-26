@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Détail du tuteur</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Adhérent</th>
+            <td>{{ entity.adherent == 1 ? 'oui' : 'non' }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ entity.prenom }}</td>
+        </tr>
+        <tr>
+            <th>Cin</th>
+            <td>{{ entity.cin }}</td>
+        </tr>
+        <tr>
+            <th>Nationalité</th>
+            <td>{{ entity.nationalite }}</td>
+        </tr>
+        <tr>
+            <th>Profession</th>
+            <td>{{ entity.profession }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ entity.email }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone personel</th>
+            <td>{{ entity.telephone }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone du bureau</th>
+            <td>{{ entity.telephoneBureau }}</td>
+        </tr>
+        <tr>
+            <th>Fix</th>
+            <td>{{ entity.fix }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ entity.adresse }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{ entity.ville }}</td>
+        </tr>
+        <tr>
+            <th>Type de parenté</th>
+            <td>{{ entity.typeParenteStr }}</td>
+        </tr>
+        <tr>
+            <th>Numéro PPR</th>
+            <td>{{ entity.numPpr }}</td>
+        </tr>
+        <tr>
+            <th>Numéro d'adhérant</th>
+            <td>{{ entity.numAdh }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('titeur') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('titeur_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('titeur_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

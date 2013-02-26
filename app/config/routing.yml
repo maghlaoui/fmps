@@ -1,0 +1,3 @@
+AcmeFmpsBundle:
+    resource: "@AcmeFmpsBundle/Resources/config/routing.yml"
+    prefix:   /

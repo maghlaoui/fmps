@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des caisses</h3>
+{% if count > 0 %}
+<div class="pull-right">
+    <a href="{{ path('ecolecaisse_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une caisse</span>
+    </a>
+</div>
+{% endif %}
+
+<form action="{{ path('ecolecaisse') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.ecole) }}</td>
+            <td>{{ form_label(form.numeroCompte) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.ecole) }}</td>
+            <td>{{ form_widget(form.numeroCompte) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune caisse n'a été trouvée</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Id', 'c.id')|raw }}</th>
+            <th>{{ entities.sortable('Ecole', 'e.nom')|raw }}</th>
+            <th>{{ entities.sortable('Numéro du compte', 'c.numeroCompte')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>{{loop.index}}</td>
+            <td>{{ entity.nom }}</td>
+            <td>
+						{% if entity.numeroCompte is empty %} 
+						  <a href="{{ path('ecolecaisse_new', { 'ecoleId': entity.ecoleId }) }}"><span><i class="icon-plus-sign icon-white"></i> Ajouter une caisse</span></a>
+						{% else %}
+						  {{ entity.numeroCompte }}
+						{% endif %}
+						 
+						</td>
+            <td width="180">
+							  {% if entity.numeroCompte is not empty %} 
+                <ul>
+                    <li><a href="{{ path('ecolecaisse_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('ecolecaisse_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+								{% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+
+{% endif %}
+{% endblock %}

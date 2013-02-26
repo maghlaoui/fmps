@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Demande</h1>
+
+
+   
+    <form action="{{ path('inscription_create_all') }}" method="post" {{ form_enctype(form) }}>
+		 	{{ form_row(form._token) }} 
+
+			  <div>
+				     {{ form_label(form.ecole) }}
+				     {{ form_widget(form.ecole) }}
+				     {{ form_errors(form.ecole) }}
+				</div>
+				
+				<div>
+				     {{ form_label(form.numDemande) }}
+				     {{ form_widget(form.numDemande) }}
+				     {{ form_errors(form.numDemande) }}
+				</div>
+				
+				<div>
+				     {{ form_label(form.dateDemande) }}
+				     {{ form_widget(form.dateDemande) }}
+				     {{ form_errors(form.dateDemande) }}
+				</div>
+				
+				<div>
+				     {{ form_label(form.dateEntree) }}
+				     {{ form_widget(form.dateEntree) }}
+				     {{ form_errors(form.dateEntree) }}
+				</div>
+<div>
+				     {{ form_label(form.category) }}
+				     {{ form_widget(form.category) }}
+				     {{ form_errors(form.category) }}
+				</div>
+<div>
+				     {{ form_label(form.anneeScolaire) }}
+				     {{ form_widget(form.anneeScolaire) }}
+				     {{ form_errors(form.anneeScolaire) }}
+				</div>
+<div>
+				     {{ form_label(form.section) }}
+				     {{ form_widget(form.section) }}
+				     {{ form_errors(form.section) }}
+				</div>
+					
+   
+<h1>Informations demandeur</h1>
+    {{ form_widget(titeur_form) }}
+<h1>Informations Enfant</h1>
+    {{ form_widget(enfant_form) }}
+
+
+    <p>
+       <center> <button type="submit">Créer</button></center>
+    </p>
+</form>
+
+
+{% endblock %}

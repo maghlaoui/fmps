@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des articles</h3>
+<div class="pull-right">
+    <a href="{{ path('article_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un article</span>
+    </a>
+</div>
+
+<form action="{{ path('article') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.designation) }}</td>
+            <td>{{ form_label(form.description) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.designation) }}</td>
+            <td>{{ form_widget(form.description) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun article n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="20">{{ entities.sortable('Id', 'a.id')|raw }}</th>
+            <th>{{ entities.sortable('Désignation', 'a.designation')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('article_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.designation }}</td>
+           <td>
+                <ul>
+                    <li><a href="{{ path('article_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('article_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+
+<h3>Attachement list</h3>
+
+
+<form action="{{ path('attachement') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    <table id="search">
+        <tr>
+            <td>Actualité</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.Actualite) }}</td>
+          
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+ <th>Actualité</th>
+            <th>Fichier</th>
+           
+ 
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('attachement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+ <td>{{ entity.actualite }}</td>         
+  <td><a href="{{ asset(entity.fichier) }}" target="_blank">{{ entity.fichier }}</a></td>
+
+         
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endblock %}

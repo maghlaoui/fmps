@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BonCommande" table="bon_commande">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="numero" type="string" column="numero" length="255"/>
+    <field name="objet" type="string" column="objet" length="255"/>
+    <field name="rubriqueId" type="integer" column="rubrique_id"/>
+    <field name="fournisseurId" type="string" column="fournisseur_id" length="250"/>
+    <field name="montantsauv" type="float" column="montantsauv"/>
+    <field name="montant" type="decimal" column="montant"/>
+    <field name="status" type="string" column="status" length="255"/>
+    <field name="dateBc" type="date" column="date_bc"/>
+    <field name="anneeBc" type="string" column="annee_bc" length="125"/>
+    <field name="fichierDa" type="string" column="fichier_da" length="255"/>
+    <field name="fichierBc" type="string" column="fichier_bc" length="255"/>
+    <field name="factureId" type="integer" column="facture_id"/>
+    <field name="pathDa" type="string" column="path_da" length="255"/>
+    <field name="pathBc" type="string" column="path_bc" length="255"/>
+    <field name="ttc" type="boolean" column="ttc"/>
+    <field name="affectation" type="string" column="affectation" length="255"/>
+    <field name="remise" type="integer" column="remise" />
+    <field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+  </entity>
+</doctrine-mapping>

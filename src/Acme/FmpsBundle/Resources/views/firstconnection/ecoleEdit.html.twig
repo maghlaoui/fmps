@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<script type="text/javascript">
+
+  $(function() 
+	{
+
+
+$("#navbar").children().attr("disabled","disabled");
+$('.dropdown-menu').hide();
+});
+
+
+</script>
+
+<ul class="nav nav-pills">
+  <li ><a href="{{ path('user_password_reset_first_use', { 'id': user }) }}">1. Editer Mot de Passe</a></li>
+  <li ><a href="{{ path('employe_edit_first', { 'id': user }) }}" >2. Valider Profil</a></li>
+  <li class="active" ><a anchor.href="javascript:void(0)">3. Editer l'école</a></li>
+  
+</ul>
+<h1>Editer une ecole</h1>
+
+<form action="{{ path('ecoles_update', { 'id': entity.id ,'i': userr}) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal well">
+ <div>
+		    {{ form_label(edit_form.nom) }}
+		    {{ form_widget(edit_form.nom) }}
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.adresse) }}
+		    {{ form_widget(edit_form.adresse) }}
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.tel1) }}
+		    {{ form_widget(edit_form.tel1) }}
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.fax) }}
+		    {{ form_widget(edit_form.fax) }}
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.email) }}
+		    {{ form_widget(edit_form.email) }}
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.nomCompteBancaire) }}
+		    {{ form_widget(edit_form.nomCompteBancaire,{ 'attr': { 'readonly': 'true' }}) }}
+
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.numeroCompte) }}
+		    {{ form_widget(edit_form.numeroCompte,{ 'attr': { 'readonly': 'true' }}) }}
+		</div>
+		
+		<div>
+		    {{ form_label(edit_form.numeroRib) }}
+		    {{ form_widget(edit_form.numeroRib,{ 'attr': { 'readonly': 'true' }}) }}
+		</div>
+<div>
+		    {{ form_label(edit_form.ville) }}
+		    {{ form_widget(edit_form.ville) }}
+		</div>
+<div>
+		    {{ form_label(edit_form.reseau_prescolaire) }}
+		    {{ form_widget(edit_form.reseau_prescolaire,{ 'attr': { 'readonly': 'true' }}) }}
+		</div>
+<br>
+    <p>
+        <button type="submit" class="btn btn-primary" >Editer</button>
+    </p>
+
+</form>
+
+
+  
+{% endblock %}

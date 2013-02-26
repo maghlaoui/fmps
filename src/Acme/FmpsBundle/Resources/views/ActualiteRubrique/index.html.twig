@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des Actualités Rubrique</h3>
+
+<div class="pull-right">
+    <a href="{{ path('actualiterubrique_new') }}">
+         <span><i class="icon-plus-sign icon-white"></i> Ajouter une actualité rubrique</span>
+    </a>
+</div>
+
+<form action="{{ path('actualiterubrique') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>Titre</td>
+            <td>Publié</td>
+           
+            <td></td>
+        </tr>
+        <tr>      
+            <td>{{ form_widget(form.title) }}</td>
+            <td>{{ form_widget(form.published) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+          
+            <th>Description</th>
+            <th>Publié</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('actualiterubrique_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.title }}</td>
+     
+            <td>{{ entity.description }}</td>
+             <td align="center" width="40"><img src="{{ asset('bundles/acmefmps/images/') }}{{ entity.published == 1 ? 'checked.gif' : 'notchecked.gif' }}" alt="" /></td>
+            <td>
+             <ul>
+              <li>
+               <span class="detail">  <a href="{{ path('actualiterubrique_show', { 'id': entity.id }) }}">show</a></span> 
+              </li>
+              <li>
+               <span class="edit">   <a href="{{ path('actualiterubrique_edit', { 'id': entity.id }) }}">edit</a></span>  
+              </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+
+{% endblock %}

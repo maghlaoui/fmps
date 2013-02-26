@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Classe d'école</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.anneeScolaire }}</td>
+        </tr>
+        <tr>
+            <th>Nombre de classes</th>
+            <td>{{ entity.classesCount }}</td>
+        </tr>
+				<tr>
+            <th>Nombre de places</th>
+            <td>{{ entity.placesCount }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('ecoleclasse') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('ecoleclasse_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('ecoleclasse_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

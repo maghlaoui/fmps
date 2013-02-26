@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Statistiques des inscriptions</h1>
+
+
+
+<table class="records_list">
+    <thead>
+        <tr>
+          
+         
+            <th>{{ entities.sortable('Ecole', 'i.ecoleId')|raw }}</th>
+            <th>{{ entities.sortable('Année scolaire', 'i.anneeScolaireId')|raw }}</th>
+             <th>{{ entities.sortable('Section', 'i.sectionId')|raw }}</th>
+        <th>{{ entities.sortable('Nombre inscrit', 'i.nombre')|raw }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+           
+    
+            <td>{{ entity.nom }}</td>
+            <td>{{ entity.libelleAnneeScolaire }}</td>
+          <td>{{entity.libelleSection}}</td>
+            <td>{{ entity.nombre }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+
+{% endblock %}

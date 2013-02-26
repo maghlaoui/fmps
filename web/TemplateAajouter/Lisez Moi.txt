@@ -1,0 +1,22 @@
+1)mettre les fichiers js se trouvant dans le dossier js dans 
+web\bundles\acmefmps\js
+
+2)mettre les fichiers css se trouvant dans le dossier css dans
+web\bundles\acmefmps\css
+
+3)remplacer base.html.twig de l'application avec base.html.twig
+
+4)remplacer les class des boutons d'ajout de chaque formulaire par 
+class="btn btn-success"
+
+5)remplacer les class des tableau par class="table table-striped"
+
+6)remplacer <ul><li> lien de tableau </li></ul> par
+<i class="icon-list-alt" ></i><a href...><small><span style="color:#000000;"> D&eacute;tail</span></small></a>
+
+7)remplacer navigation par 
+<center><div class="pagination">
+  <ul><li><a href="{{ entities.render()|raw }} </li></ul>
+</div></center>
+
+8) ajouter au forms class="form-horizontal well"

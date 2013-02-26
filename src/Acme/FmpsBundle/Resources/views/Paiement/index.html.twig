@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des paiements</h3>
+
+<form action="{{ path('paiement') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.matricule) }}</td>
+            <td>{{ form_label(form.inscription) }}</td>
+            <td>{{ form_label(form.nomPersonnePaiement) }}</td>
+            <td>{{ form_label(form.moyenPaiement) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.matricule) }}</td>
+            <td>{{ form_widget(form.inscription) }}</td>
+            <td>{{ form_widget(form.nomPersonnePaiement) }}</td>
+            <td>{{ form_widget(form.moyenPaiement) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Matricule</th>
+            <th>Date de paiement</th>
+            <th>Type de paiement</th>
+            <th>Montant</th>
+            <th>Effectué par</th>
+            <th>Enfant</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('paiement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.matricule }}</td>
+            <td>{% if entity.datePaiement %}{{ entity.datePaiement|date('Y-m-d') }}{% endif %}</td>
+            <td>{{ entity.moyenPaiement }}</td>
+            <td>{{ entity.montantPaiement|number_format(2, '.', ' ') }}</td>
+            <td>{{ entity.nomPersonnePaiement }}</td>
+            <td>{{ entity.inscription }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('paiement_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('paiement_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

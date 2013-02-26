@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des Décharges</h3>
+
+<div class="pull-right">
+    <a href="{{ path('decharge_new') }}">
+         <span><i class="icon-plus-sign icon-white"></i> Ajouter une décharge</span>
+    </a>
+</div>
+
+<form action="{{ path('decharge') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.ecole) }}</td>
+						<td>{{ form_label(form.budget) }}</td>
+            <td>{{ form_label(form.nom) }}</td>
+            <td>{{ form_label(form.prenom) }}</td>
+            <td>{{ form_label(form.cin) }}</td>
+						<td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.ecole) }}</td>
+						<td>{{ form_widget(form.budget) }}</td>
+            <td>{{ form_widget(form.nom) }}</td>
+            <td>{{ form_widget(form.prenom) }}</td>
+      			<td>{{ form_widget(form.cin) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune décharge n'a été trouvée</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Id', 'd.id')|raw }}</th>
+            <th>{{ entities.sortable('Ecole', 'd.ecole')|raw }}</th>     
+   					<th>{{ entities.sortable('Nom', 'd.nom')|raw }}</th>       
+            <th>{{ entities.sortable('Prénom', 'd.prenom')|raw }}</th>
+            <th>{{ entities.sortable('Cin', 'd.cin')|raw }}</th>
+            <th>{{ entities.sortable('Date', 'd.date')|raw }}</th>
+            <th>{{ entities.sortable('Objet', 'd.objet')|raw }}</th>
+ 						<th>{{ entities.sortable('Nature', 'd.natureDepense')|raw }}</th>
+ 						<th>{{ entities.sortable('Montant', 'd.montant')|raw }}</th>
+            <th>{{ entities.sortable('Date de paiement', 'd.datePaiement')|raw }}</th> 
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+		
+         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+             <td width="25"><a href="{{ path('bon_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+             <td><a href="{{ path('ecole_show', { 'id': entity.ecoleId }) }}">{{ entity.ecole }}</a></td>            
+						 <td>{{ entity.nom }}</td>            
+ 						 <td>{{ entity.prenom }}</td>
+             <td>{{ entity.cin }}</td>
+             <td>{% if entity.date %}{{ entity.date|date('d-m-Y') }}{% endif%}</td>
+             <td>{{ entity.objet }}</td>
+						 <td>{{ entity.natureDepense }}</td>
+					 	 <td>{{ entity.montant }}</td>
+             <td>{% if entity.datePaiement %}{{ entity.datePaiement|date('d-m-Y') }}{% endif%}</td>
+             <td>
+                 <ul>
+                     <li><a href="{{ path('decharge_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                     <li><a href="{{ path('decharge_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                 </ul>
+             </td>
+         </tr>
+ 
+   {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

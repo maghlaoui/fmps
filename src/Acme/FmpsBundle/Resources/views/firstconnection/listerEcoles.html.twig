@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<script type="text/javascript" src="/fmps/web/bundles/acmefmps/js/ejs_slidein.js"></script> 
+<table align="center" class="alert alert-block">
+	<tr>
+		<td style="WIDTH:480px;HEIGHT:16px;FONT-WEIGHT:bold;FONT-SIZE:11pt;COLOR:#000099;vertical-align:middle;cursor:default;">
+			<div style="position:absolute;width:480px;height:16px;background:url(bg_bandeau_txt_480.gif);background-repeat:no-repeat;FONT-WEIGHT:bold;FONT-SIZE:11pt;COLOR:#000099;cursor:default;">&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="modif_txt_deroulant" class="span_text_deroulant">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		</td>
+	</tr>
+</table>
+<ul class="nav nav-pills">
+  <li ><a href="{{ path('user_password_reset_first_use', { 'id': user }) }}">1. Editer Mot de Passe</a></li>
+  <li ><a href="{{ path('employe_edit_first', { 'id': user }) }}" >2. Valider Profil</a></li>
+  <li class="active"><a anchor.href="javascript:void(0)">3. Editer l'école</a></li>
+  
+</ul>
+<h3>vos écoles</h3>
+
+<script type="text/javascript">
+  $(function() 
+	{
+
+$("#navbar").children().attr("disabled","disabled");
+$('.dropdown-menu').hide();
+});
+</script>
+
+
+<ul class="breadcrumb">
+    {% for entity in entity%}
+	
+           
+           <li>
+              <a href="{{ path('directeur_ecoles_editer', { 'id': entity.id }) }}">{{entity.nom}}</a>
+               <span class="divider">/</span>
+       </li>
+  
+    {% endfor %}
+ 
+{% endblock %}

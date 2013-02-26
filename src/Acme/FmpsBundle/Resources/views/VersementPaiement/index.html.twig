@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>VersementPaiement list</h3>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Virement</th>
+            <th>Paiement</th>
+            <th>Montant versé</th>
+            <th>Montant paiement</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('versementpaiement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.virementId }}</td>
+            <td>{{ entity.paiementId }}</td>
+            <td>{{ entity.montantVerse }}</td>
+            <td>{{ entity.montantPaiement }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('versementpaiement_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('versementpaiement_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('versementpaiement_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

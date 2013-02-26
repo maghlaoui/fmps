@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Affectation d'un employé à une classe</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Employe</th>
+            <td>{{ entity.employe }}</td>
+        </tr>
+        <tr>
+            <th>Classe</th>
+            <td>{{ entity.classe }}</td>
+        </tr>
+				<tr>
+            <th>Langues</th>
+            <td>{{ entity.languesStr }}</td>
+        </tr>
+        <tr>
+            <th>Année scolaire</th>
+            <td>{{ entity.anneeScolaire }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('employeclasse') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('employeclasse_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('employeclasse_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+
+{% endblock %}

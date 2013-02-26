@@ -1,0 +1,89 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des bons de Commande</h3>
+
+<div class="pull-right">
+    <a href="{{ path('boncommande_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un bon de commande</span>
+    </a>
+    <a href="{{ path('boncommande_stats') }}">
+        <span class="stats">Statistiques</span>
+    </a>
+     <span class="pdf"><a target="_blank" href="{{ path('boncommande', {'_format': 'pdf'}) }}">PDF Version</span></a></span>
+</div>
+
+<form action="{{ path('boncommande') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.fournisseur) }}</td>
+            <td>{{ form_label(form.status) }}</td>
+            <td>{{ form_label(form.anneeBc) }}</td>
+            <td>{{ form_label(form.dateBc) }}</td>
+            <td>{{ form_label(form.updatedAt) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.fournisseur) }}</td>
+            <td>{{ form_widget(form.status) }}</td>
+            <td>{{ form_widget(form.anneeBc) }}</td>
+            <td>{{ form_widget(form.dateBc) }}</td>
+            <td>{{ form_widget(form.updatedAt) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun bon de commande n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Numero', 'b.numero')|raw }}</th>
+            <th width="75">{{ entities.sortable('Date', 'b.dateBc')|raw }}</th>
+            <th>{{ entities.sortable('Fournisseur', 'b.fournisseurId')|raw }}</th>
+            <th>{{ entities.sortable('Objet', 'b.objet')|raw }}</th>
+            <th>{{ entities.sortable('Status', 'b.status')|raw }}</th>
+            <th width="100">{{ entities.sortable('Montant TTC', 'b.montant')|raw }}</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set total_generale = 0 %}
+    {% for entity in entities %}
+        {% set total_generale = total_generale + entity.montant %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>{{ entity.numero }}</td>
+            <td>{% if entity.dateBc %}{{ entity.dateBc|date('d-m-Y') }}{% endif %}</td>
+            <td><a href="{{ path('fournisseur_show', { 'id': entity.fournisseurId }) }}">
+            {% if entity.fournisseurId %} {{ entity.fournisseur }} {% endif %}</a></td>
+            <td>{{ entity.objet }}</td>
+            <td>{{ entity.status }}</td>
+            <td align="right" class="montant">{{ (entity.montant*entity.remiseFor)|number_format(2, '.', ' ') }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('boncommande_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('boncommande_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="bold">
+            <td colspan="5" align="right">TOTAL: </td>
+            <td id="total" align="right"> {{ total_generale|number_format(2, '.', ' ') }}</td>
+            <td></td>
+        </tr>
+     <tfoot>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+
+{% endblock %}
+

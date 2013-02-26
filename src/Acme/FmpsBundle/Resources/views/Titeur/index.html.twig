@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des tuteurs</h3>
+
+<div class="pull-right">
+    <a href="{{ path('titeur_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un tuteur</span>
+    </a>
+</div>
+
+<form action="{{ path('titeur') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.nom) }}</td>
+            <td>{{ form_label(form.prenom) }}</td>
+						<td>{{ form_label(form.cin) }}</td>
+            <td>{{ form_label(form.profession) }}</td>
+            <td>{{ form_label(form.ville) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.nom) }}</td>
+            <td>{{ form_widget(form.prenom) }}</td>
+						<td>{{ form_widget(form.cin) }}</td>
+			      <td>{{ form_widget(form.profession) }}</td>
+            <td>{{ form_widget(form.ville) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Id', 't.id')|raw }}</th>
+            <th>{{ entities.sortable('Nom', 't.nom')|raw }}</th>
+            <th>{{ entities.sortable('Prénom', 't.prenom')|raw }}</th>
+            <th>{{ entities.sortable('Cin', 't.cin')|raw }}</th>
+            <th>{{ entities.sortable('Profession', 't.profession')|raw }}</th>
+            <th>{{ entities.sortable('Email', 't.email')|raw }}</th>
+            <th>{{ entities.sortable('Ville', 't.villeId')|raw }}</th>
+            <th width="280">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('titeur_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.nom }}</td>
+            <td>{{ entity.prenom }}</td>
+            <td>{{ entity.cin }}</td>
+            <td>{{ entity.profession }}</td>
+            <td>{{ entity.email }}</td>
+            <td>{{ entity.ville }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('titeur_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('titeur_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('titeur_delete', { 'id': entity.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+
+{% endblock %}

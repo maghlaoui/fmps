@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des dotations</h3>
+
+<div class="pull-right">
+    <a href="{{ path('dotation_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une dotation</span>
+    </a>
+</div>
+
+<form action="{{ path('dotation') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.ecole) }}</td>
+            <td>{{ form_label(form.annee) }}</td>
+						<td>{{ form_label(form.periode) }}</td>
+						<td>{{ form_label(form.montant) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.ecole) }}</td>
+            <td>{{ form_widget(form.annee) }}</td>
+            <td>{{ form_widget(form.periode) }}</td>
+            <td>{{ form_widget(form.montant) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune dotation n'a été trouvée</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ecole</th>
+            <th>Année</th>
+            <th>Période</th>
+            <th>Montant</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('dotation_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.ecole }}</td>
+            <td>{{ entity.annee }}</td>
+            <td>{{ entity.periode }}</td>
+            <td>{{ entity.montant|number_format(2, '.', ' ') }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('dotation_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+	                    <li><a href="{{ path('dotation_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des affectations</h3>
+
+{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+<div class="pull-right">
+	{% include "AcmeFmpsBundle:Default:add_link.html.twig" with {'url': path('affectation_new'), 'title': 'Nouvelle affectation'} %}
+</div>
+{% endif %}
+
+<form action="{{ path('affectation') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.ecole) }}</td>
+            <td>{{ form_label(form.dateDebutAffectation) }}</td>
+            <td>{{ form_label(form.dateFinAffectation) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.ecole) }}</td>
+            <td>{{ form_widget(form.dateDebutAffectation) }}</td>
+            <td>{{ form_widget(form.dateFinAffectation) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune affectation n'a été trouvée</div>
+{% else %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>{{ entities.sortable('Employé', 'em.prenom')|raw }}</th>
+            <th>{{ entities.sortable('Ecole', 'ec.nom')|raw }}</th>
+						<th>{{ entities.sortable('Fonction', 'f.libele')|raw }}</th>
+            <th>{{ entities.sortable("Date d\'entrée", 'a.dateDebutAffectation')|raw }}</th>
+            <th>{{ entities.sortable("Date de fin", 'a.dateFinAffectation')|raw }}</th>
+            {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+						<th width="160">Actions</th>
+						{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td>{{ loop.index }}</td>
+            <td><a href="{{ path('employe_show', { 'id': entity.employeId }) }}">{{ entity.employe }}</a></td>
+            <td><a href="{{ path('ecole_show', { 'id': entity.ecoleId }) }}">{{ entity.ecole }}</a></td>
+						<td>{{ entity.employe.fonction }}</td>
+            <td>{% if entity.dateDebutAffectation %}{{ entity.dateDebutAffectation|date('d-m-Y') }}{% endif%}</td>
+            <td>{% if entity.dateFinAffectation %}{{ entity.dateFinAffectation|date('d-m-Y') }}{% endif%}</td>
+						{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_DRH') )  %}
+            <td>
+                <ul>
+                    <li><a href="{{ path('affectation_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('affectation_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+						{% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+services:
+  acme.fmpsbundle.suiviargpart_listener:
+    class: Acme\FmpsBundle\Listener\SuiviArgPartListner
+    arguments: [@router, @security.context, @translator]
+    tags:
+      - { name: kernel.event_listener, event: left_menu.render, method: onLeftMenuRender }
+  

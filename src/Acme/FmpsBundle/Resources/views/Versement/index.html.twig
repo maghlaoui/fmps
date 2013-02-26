@@ -1,0 +1,66 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des versements</h3>
+
+<div class="pull-right">
+    <a href="{{ path('versement_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un versement</span>
+    </a>
+</div>
+
+<form action="{{ path('versement') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.refVirement) }}</td>
+            <td>{{ form_label(form.dateOperation) }}</td>
+						<td>{{ form_label(form.dateValeur) }}</td>
+            <td>{{ form_label(form.personnePaiement) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.refVirement) }}</td>
+            <td>{{ form_widget(form.dateOperation) }}</td>
+						<td>{{ form_widget(form.dateValeur) }}</td>
+			      <td>{{ form_widget(form.personnePaiement) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Référence</th>
+            <th>Date d'opération</th>
+            <th>Date de valeur</th>
+            <th>Montant</th>
+            <th>Crédit</th>
+            <th>Effectué par</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('versement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.refVirement }}</td>
+            <td>{% if entity.dateOperation %}{{ entity.dateOperation|date('Y-m-d') }}{% endif %}</td>
+            <td>{% if entity.dateValeur %}{{ entity.dateValeur|date('Y-m-d') }}{% endif %}</td>
+            <td>{{ entity.montantVirement }}</td>
+            <td>{{ entity.credit }}</td>
+            <td>{{ entity.personnePaiement }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('versement_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('versement_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('versement_delete', { 'id': entity.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

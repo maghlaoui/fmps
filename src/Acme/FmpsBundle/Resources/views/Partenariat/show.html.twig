@@ -1,0 +1,198 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Partenariat</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th width="200">Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Code</th>
+            <td>{{ entity.code }}</td>
+        </tr>
+        <tr>
+            <th>Libellé</th>
+            <td>{{ entity.libellePartenariat }}</td>
+        </tr>
+        <tr>
+            <th>Objet</th>
+            <td>{{ entity.objetPartenariat }}</td>
+        </tr>
+        <tr>
+            <th>Date de début</th>
+            <td>{%if entity.datePatenariat %}{{ entity.datePatenariat|date('d-m-Y') }}{% endif%}</td>
+        </tr>
+        <tr>
+            <th>Date de fin</th>
+            <td>{%if entity.dateFinPartenariat %}{{ entity.dateFinPartenariat|date('d-m-Y') }}{% endif%}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('partenariat') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('partenariat_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('partenariat_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+
+<h3>Partenaires:</h3>
+
+<div class="pull-right">
+    <a href="{{ path('partenariatpartenaire_new', { 'partenariat_id': entity.id }) }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un partenaire</span>
+    </a>
+</div>
+{% if partenaires.count > 0 %}
+<table class="table table-bordered table-striped table-hover" style="margin-top:10px">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>Partenaire</th>
+            <th>Type d'engagement</th>
+            <th>Montant de participation</th>
+            <th>Périodicité</th>
+            <th>Détail</th>
+            <th width="190">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in partenaires %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('partenariatpartenaire_show', { 'id': p.id }) }}">{{ p.id }}</a></td>
+            <td>{{ p.partenaire }}</td>
+            <td>{{ p.typeEngagement }}</td>
+            <td>{{ p.montantParticipation }}</td>
+            <td>{{ p.typeContribution }}</td>
+            <td>{{ p.detail }}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('partenariatpartenaire_edit', { 'id': p.id, 'partenariat_id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('partenariatpartenaire_delete', { 'id': p.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+					<li><a href="{{ path('suiviargpart_new', { 'partenariat_partenaire_id': p.id, 'partenariat_id': entity.id }) }}">
+				        <span><i class="icon-plus-sign icon-white"></i> Contribution</span>
+				    </a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<h3>Chargé du partenariat:</h3>
+
+<div class="pull-right">
+    <a href="{{ path('gestionpartenariat_new', { 'partenariat_id': entity.id }) }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une personne chargé du partenariat</span>
+    </a>
+</div>
+{% if gestionPartenariats.count > 0 %}
+<table class="table table-bordered table-striped table-hover" style="margin-top:10px">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>Contact</th>
+            <th>Date de début d'affectation de la gestion</th>
+            <th>Date de fin d'affectation de la gestion</th>
+            <th width="190">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for g in gestionPartenariats %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('gestionpartenariat_show', { 'id': g.id }) }}">{{ g.id }}</a></td>
+            <td>{{ g.contact }}</td>
+            <td>{% if g.dateAffectationGestion %}{{ g.dateAffectationGestion|date('Y-m-d') }}{% endif%}</td>
+            <td>{% if g.dateFinAffectationGestion %}{{ g.dateFinAffectationGestion|date('Y-m-d') }}{% endif%}</td>      
+            <td>
+                <ul>
+                    <li><a href="{{ path('gestionpartenariat_edit', { 'id': g.id, 'partenariat_id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('gestionpartenariat_delete', { 'id': g.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<h3>Documents:</h3>
+
+<div class="pull-right">
+    <a href="{{ path('document_new', { 'partenariat_id': entity.id }) }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un document</span>
+    </a>
+</div>
+{% if documents.count > 0 %}
+<table class="table table-bordered table-striped table-hover" style="margin-top:10px">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>Type de document</th>
+            <th>Document</th>
+            <th width="190">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+   {% for document in documents %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('document_show', { 'id': document.id }) }}">{{ document.id }}</a></td>
+            <td>{{ document.typeDocument }}</td>
+            <td><a href="{{ asset(document.webPath) }}" target="_blank">Document {{ loop.index }}</a></td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('document_edit', { 'id': document.id, 'partenariat_id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('document_delete', { 'id': document.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre de vouloir supprimer ce document?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<h3>Contributions reçu:</h3>
+{% if contributions|length > 0  > 0 %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">Id</th>
+            <th>Partenaire</th>
+            <th>Montant</th>
+            <th>Date de réception</th>
+            <th width="280">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for contribution in contributions %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('suiviargpart_show', { 'id': contribution.id }) }}">{{ contribution.id }}</a></td>
+            <td><a href="{{ path('partenariatpartenaire_show', { 'id': contribution.partenariatPartenaireId }) }}">{{ contribution.partenariatPartenaire }}</a></td>
+            <td>{{ contribution.montant }}</td>
+            <td>{% if contribution.dateReception %}{{ contribution.dateReception|date('d-m-Y') }}{% endif%}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('suiviargpart_edit', { 'id': contribution.id, 'partenariat_id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('suiviargpart_delete', { 'id': contribution.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

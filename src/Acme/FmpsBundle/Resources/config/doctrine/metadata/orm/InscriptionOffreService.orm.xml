@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="InscriptionOffreService" table="inscription_offre_service">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="offreServiceId" type="integer" column="offre_service_id"/>
+    <field name="inscriptionId" type="integer" column="inscription_id"/>
+    <field name="mois" type="string" column="mois" length="125"/>
+    <field name="gratuit" type="boolean" column="gratuit"/>
+    <field name="reduction" type="float" column="reduction"/>
+    <field name="valide" type="boolean" column="valide"/>
+    <field name="createdAt" type="datetime" column="created_at"/>
+    <field name="updatedAt" type="datetime" column="updated_at"/>
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

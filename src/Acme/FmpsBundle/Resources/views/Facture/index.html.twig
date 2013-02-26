@@ -1,0 +1,79 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des factures</h3>
+
+<div class="pull-right">
+    <a href="{{ path('facture_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une facture</span>
+    </a>
+</div>
+
+<form action="{{ path('facture') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.numero) }}</td>
+            <td>{{ form_label(form.datePrevisionPaiement) }}</td>
+            <td>{{ form_label(form.datePaiement) }}</td>
+            <td>{{ form_label(form.typePaiement) }}</td>
+            <td>{{ form_label(form.etat) }}</td>
+            <td>{{ form_label(form.bonCommande) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.numero) }}</td>
+            <td>{{ form_widget(form.datePrevisionPaiement) }}</td>
+            <td>{{ form_widget(form.datePaiement) }}</td>
+            <td>{{ form_widget(form.typePaiement) }}</td>
+            <td>{{ form_widget(form.etat) }}</td>
+            <td>{{ form_widget(form.bonCommande) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune facture n'a été trouvée</div>
+{% else %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="20">{{ entities.sortable('Id', 'f.id')|raw }}</th>
+            <th>{{ entities.sortable('Numéro', 'f.numero')|raw }}</th>
+            <th>{{ entities.sortable('Date', 'f.dateCreation')|raw }}</th>
+            <th>{{ entities.sortable('Montant', 'f.montant')|raw }}</th>
+            <th>{{ entities.sortable('Etat', 'f.etat')|raw }}</th>
+            <th>{{ entities.sortable('Paiement', 'f.datePaiement')|raw }}</th>
+            <th>{{ entities.sortable('Prévision', 'f.datePrevisionPaiement')|raw }}</th>
+            <th>{{ entities.sortable('Règlement', 'f.typePaiement')|raw }}</th>
+            <th>{{ entities.sortable('Bon de commande', 'f.bonCommandeId')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('facture_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.numero }}</td>
+            <td>{% if entity.dateCreation %}{{ entity.dateCreation|date('d-m-Y') }}{% endif%}</td>
+            <td align="right">{{ entity.montant }}</td>
+            <td>{{ entity.etat }}</td>
+            <td>{% if entity.datePaiement %}{{ entity.datePaiement|date('d-m-Y') }}{% endif%}</td>
+            <td>{% if entity.datePrevisionPaiement %}{{ entity.datePrevisionPaiement|date('d-m-Y') }}{% endif %}</td>
+            <td>{{ entity.typePaiement }}</td>
+            <td>{% if entity.bonCommandeId %}{{ entity.bonCommande }} {% endif %}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('facture_show', { 'id': entity.id }) }}"><span class="detail">D&eacute;tail</span></a></li>
+                    <li><a href="{{ path('facture_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des titeurs par enfant </h3>
+
+<div class="pull-right">
+    <a href="{{ path('enfanttiteur_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un titeur à un enfant</span>
+    </a>
+</div>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <th>Id</th>
+            <th>Enfant</th>
+            <th>Titeur</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('enfanttiteur_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.enfant }}</td>
+            <td>{{ entity.titeur }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('enfanttiteur_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('enfanttiteur_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

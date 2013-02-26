@@ -1,0 +1,120 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Statistiques des bon de Commande</h3>
+<div class="pull-right">
+    <a href="{{ path('boncommande_stats', {'_format': 'pdf', 'anneeBc': panneeBc}) }}">
+        <span class="pdf">Exporter en pdf</span>
+    </a>
+</div>
+<form action="{{ path('boncommande_stats') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    <table id="search">
+        <tr>
+            <td>Année</td>
+            <td colspan="3"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.anneeBc) }}</td>
+            <td>{{ form_widget(form.bc) }}  <label for="form_bc">Bon de commande</label></td>
+            <td>{{ form_widget(form.marche) }}  <label for="form_marche">Marchés</label></td>
+            <td>{{ form_widget(form.contrat) }}  <label for="form_contrat">Contrats</label></td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Année</th>
+            <th>Engagé</th>
+            <th>Payé</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set total_paye = 0 %}
+        {% set total_engage = 0 %}
+        {% for key, value in stats %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            {% set total_paye = total_paye + value[0] %}
+            {% set total_engage = total_engage + value[1] %}
+            <td><a href="{{ path('boncommande', { 'anneeBc': key }) }}">{{ key }}</a></td>
+            <td align="right"><a href="{{ path('boncommande', { 'anneeBc': key, 'status' : 'engagé' }) }}">{{ '%.2f' | format(value[0])|number_format(2, '.', ' ') }}</a></td>
+            <td align="right"><a href="{{ path('boncommande', { 'anneeBc': key, 'status' : 'payé' }) }}">{{ '%.2f' | format(value[1])|number_format(2, '.', ' ') }}</a></td>
+            <td align="right">{{ '%.2f' | format(value[0]+value[1])|number_format(2, '.', ' ') }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="bold">
+            <td>Total</td>
+            <td align="right">{{ '%.2f' | format(total_paye)|number_format(2, '.', ' ') }}</td>
+            <td align="right">{{ '%.2f' | format(total_engage)|number_format(2, '.', ' ') }}</td>
+            <td align="right">{{ '%.2f' | format(total_paye+total_engage)|number_format(2, '.', ' ') }}</td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+       
+        // Column chart
+        data = new google.visualization.DataTable();
+        data.addColumn('string', 'Année');
+        data.addColumn('number', 'Engagé');
+        data.addColumn('number', 'Payé');
+        data.addRows({{ stats|length}});
+        {% for key, value in stats %}
+        {% set index = loop.index-1 %}
+        data.setValue({{ index }}, 0, '{{ key }}');
+        data.setValue({{ index }}, 1, {{ value[0] }});
+        data.setValue({{ index }}, 2, {{ value[1] }});
+        {% endfor %}
+
+        var options = {
+          title: 'Statistiques des bon de commande par année',
+          colors: ['#FF3300','#33FF00','#FF9E01','#00FFFF','#2A0CD0'],
+          legendTextStyle: {color:'#666666'},
+          hAxis: {title: 'Année', titleTextStyle: {color: 'red'}},
+          vAxis: {title: 'Total', titleTextStyle: {color: 'red'}},
+          width: 450, 
+          height: 300
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('column_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="column_div" style="width: 450px; height: 300px; ; float:left"></div>
+
+     <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        // Pie chart
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'status');
+        data.addColumn('number', 'Total');
+        data.addRows(2);
+        data.setValue(0, 0, 'Engagé');
+        data.setValue(0, 1, {{ pie_data[0] }});
+        data.setValue(1, 0, 'Payé');
+        data.setValue(1, 1, {{ pie_data[1] }});
+        
+        var options = {
+          title: 'Statistiques global sur les bon de commande {{ panneeBc }}',
+          colors: ['#FF3300', '#33FF00'],
+          width: 450, 
+          height: 300
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="pie_div" style="width: 450px; height: 300px; ; float:left"></div>
+  <body>
+    
+{% endblock %}
+

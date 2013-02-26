@@ -1,0 +1,75 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Situation de caisse</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+        <tr>
+            <th>Année</th>
+            <td>{{ entity.annee }}</td>
+        </tr>
+        <tr>
+            <th>Mois</th>
+            <td>{{ entity.mois }}</td>
+        </tr>
+        <tr>
+            <th>Solde initiale</th>
+            <td>{{ entity.soldeInitiale|number_format(2, '.', ' ') }}</td>
+        </tr>
+        <tr>
+            <th>Total des alimentations</th>
+            <td>{{ entity.totalAlimentation|number_format(2, '.', ' ') }}</td>
+        </tr>
+        <tr>
+            <th>Total des achats</th>
+            <td>{{ entity.totalAchat|number_format(2, '.', ' ') }}</td>
+        </tr>
+        <tr>
+            <th>Solde finale</th>
+            <td>{{ entity.soldeFinale|number_format(2, '.', ' ') }}</td>
+        </tr>
+        <tr>
+            <th>cloture</th>
+            <td>{{ entity.cloture }}</td>
+        </tr>
+        <tr>
+            <th>Date de cloture</th>
+            <td>{{ entity.createdAt|date('Y-m-d') }}</td>
+        </tr>
+        {% if entity.webPath %}
+        <tr>
+            <th>Fichier</th>
+            <td><a href="{{ asset(entity.webPath) }}" target="_blank">Télécharger</a></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('situationcaisse') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('situationcaisse_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('situationcaisse_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

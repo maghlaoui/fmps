@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter un document</h1>
+
+<form action="{{ path('document_create') }}" method="post" {{ form_enctype(form) }}>
+
+	  {{ form_row(form._token) }} 
+		<div>
+		    {{ form_label(form.partenariat) }}
+		    {{ form_widget(form.partenariat) }}
+		</div>
+		
+		<div>
+		    {{ form_label(form.type_document) }}
+		    {{ form_widget(form.type_document) }}
+		    <a href="#content-div" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter un type de document</span></a>
+		</div>
+		
+		<div>
+		    {{ form_label(form.fichier) }}
+		    {{ form_widget(form.fichier) }}
+		</div>
+		
+    <p>
+        <button type="submit">Ajouter</button>
+    </p>
+</form>
+
+<div id="content-div" style="display: none">
+
+<h1>Ajouter un type de document</h1>
+
+<form action="{{ path('typedocument_create') }}" class="ajax_form" method="post" {{ form_enctype(type_document_form) }}>
+    {{ form_widget(type_document_form) }}
+    <input type="hidden" name="dom_id" value="document_type_document" />
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('document') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

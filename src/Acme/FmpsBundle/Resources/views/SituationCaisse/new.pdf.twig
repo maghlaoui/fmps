@@ -1,0 +1,181 @@
+{% block body %}
+
+<br><br><br>
+<h4>Ecole : {{ecole}}</h4>
+<h4>Mois /Annee : {{entity.mois}}/{{entity.annee}}</h4>
+ 
+{% if entity.soldeInitiale %}
+  <h4><u>Solde Initiale :</u>
+  {{entity.soldeInitiale}}DH<</h4>
+{%else %}
+  <h4><u>Solde Initiale :</u> 0dh</h4>
+  {% endif %}
+<BR>
+
+<h1><u>Achat :</u></h1>
+{% if (objet) %}
+<h4>Facture :</h4>
+  <table  style="border: 1px solid black">
+    <thead>
+      <tr>
+        <th style="font-weight:bold;">Achat</th>
+        <th style="font-weight:bold;">Date d'entrée</th>
+        <th style="font-weight:bold;">Objet Achat</th>
+        <th style="font-weight:bold;">Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for objets in objet %}
+        <tr>
+          <td><span>{{ objets.id }}</span></td>
+          <td>{% if objets.date %}{{ objets.date|date('d-m-Y') }}{% endif%}</td>
+          <td>{{objets.objet}}</td>
+          <td>{{objets.montant}}</td>
+        </tr>
+     </tbody>
+ {% endfor %}
+</table>
+{% endif %}
+{% if (decharge) %}
+<h4>Decharges :</h4>
+  <table  style="border: 1px solid black">
+    <thead>
+      <tr>
+        <th style="font-weight:bold;">Date</th>
+        <th style="font-weight:bold;">Nature Dépense</th>
+        <th style="font-weight:bold;">Objet Décharge</th>
+        <th style="font-weight:bold;">Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for decharges in decharge %}
+        <tr>
+            <td>{% if decharges.date %}{{ decharges.date|date('d-m-Y') }}{% endif%}</td>
+       <td>{{decharges.natureDepense}}</td>
+          <td>{{decharges.objet}}</td>
+          <td>{{decharges.montant}}</td>
+        </tr>
+     </tbody>
+ {% endfor %}
+</table>
+{% endif %}
+{% if (eau) %}
+<h4>Eau Electricité :</h4>
+  <table  style="border: 1px solid black">
+    <thead>
+      <tr>
+        <th style="font-weight:bold;">Date Facture</th>
+        <th style="font-weight:bold;">Mode de Facture</th>
+        <th style="font-weight:bold;">Période Début</th>
+        <th style="font-weight:bold;">Période Fin</th>
+        <th style="font-weight:bold;">Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for eaux in eau %}
+        <tr>
+         <td>{% if eaux.datefacture %}{{ eaux.datefacture|date('d-m-Y') }}{% endif%}</td>
+         <td>{{eaux.modeFacturation}}</td>
+         <td>{% if eaux.periodeDebut %}{{ eaux.periodeDebut|date('d-m-Y') }}{% endif%}</td>
+         <td>{% if eaux.periodeFin %}{{ eaux.periodeFin|date('d-m-Y') }}{% endif%}</td>
+        <td>{{eaux.montant}}</td>
+        </tr>
+     </tbody>
+ {% endfor %}
+</table>
+{% endif %}
+{% if (bon) %}
+<h4>Bon :</h4>
+  <table  style="border: 1px solid black">
+    <thead>
+      <tr>
+        <th style="font-weight:bold;">Date </th>
+        <th style="font-weight:bold;">Objet</th>
+        <th style="font-weight:bold;">Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bons in bon %}
+        <tr>
+         <td>{% if bons.date %}{{ bons.date|date('d-m-Y') }}{% endif%}</td>
+         <td>{{bons.objet}}</td>
+         <td>{{bons.montant}}</td>
+        </tr>
+     </tbody>
+ {% endfor %}
+</table>
+{% endif %}
+<BR><BR>
+
+{% if entity.totalAchat %}
+<BR>
+     <span bgcolor="#66CCFF"><u>Total Achat :</u> {{entity.totalAchat}}DH</span>
+
+{%else %}
+
+ <span bgcolor="#66CCFF"><u>Total Achat :</u>0dh</span>
+     {% endif %}
+
+
+<h1><u>Alimentation:</u></h1>
+ <table  style="border: 1px solid black">
+    <thead>
+
+        <tr>
+            <th style="font-weight:bold;">Alimentation</th>
+            <th style="font-weight:bold;">Date </th>
+
+            <th style="font-weight:bold;">Montant</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+    {% for alimentations in alimentation %}
+
+        <tr>
+            <td><span>{{ alimentations.id }}</span></td>
+            <td>{% if alimentations.date %}{{ alimentations.date|date('d-m-Y') }}{% endif%}</td>
+
+           <td>{{alimentations.montant}}</td>
+        </tr>
+
+    </tbody>
+
+ {% endfor %}
+</table>
+
+
+
+
+
+<BR><BR><BR>
+
+
+{% if entity.totalAlimentation %}
+        
+           <BR>
+            <span bgcolor="#33FF66"><u>Total Alimentation :</u> {{entity.totalAlimentation}}DH</span>
+     
+{%else %}
+
+<span bgcolor="#33FF66"><u>Total Alimentation :</u> 0dh</span>
+     {% endif %}
+
+
+
+{% if entity.soldeFinale %}
+<BR>
+      <h4> <u>Solde Finale :</u>{{entity.soldeFinale}}DH</h4>
+{%else %}
+<h4><u>Solde Finale :</u> 0dh</h4>
+     {% endif %}
+
+
+
+   
+<BR><BR>
+<h2><u>Signature :</u></h2>
+
+   
+{% endblock %}

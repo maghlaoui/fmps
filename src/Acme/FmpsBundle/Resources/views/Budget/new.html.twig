@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Ajouter un budget d'une rubrique</h3>
+
+<form action="{{ path('budget_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+  <fieldset>
+	  <legend>Ecoles:</legend>
+
+		{% for ecole in ecoles %}   
+		  {% if ecole.id > 1 %}
+		  <div class="ecole_budget">
+		  	<input type="checkbox" name="ecoles[]" id="ecole_{{ ecole.id }}" value="{{ ecole.id }}" /> 
+		  	<label for="ecole_{{ ecole.id }}">{{ ecole.nom }}</label>
+		  </div>
+		  {% endif %} 
+	  {% endfor %}
+	</fieldset>
+    <div class="clear"></div>
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('budget') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

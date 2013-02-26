@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %} FMPS {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    {% block stylesheets %}
+		<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('js/datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+		{% endblock %}
+		
+  </head>
+  <body>
+	  <!-- ==========================Navbar======================== -->
+	  <div class="navbar navbar-fixed-top">
+	    <div class="navbar-inner">
+	      <div class="container">
+	        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </a>
+	        <a class="brand" href="/">FMPS</a>
+	        <div class="nav-collapse collapse" id="main-menu">
+		        {% if app.user.employe.fonctionId == 5 %}
+	        	<ul class="nav" id="main-menu-left">
+	          	<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion de l'école <b class="caret"></b></a>
+	            	<ul class="dropdown-menu" id="swatch-menu">
+	              	<li><a href="{{ path('ecole') }}"> Mon école </a></li>
+								  <li><a href="{{ path('classe') }}"> Mes classes </a></li>
+								  <li><a href="{{ path('offreservice') }}"> Offres de service </a></li>
+	            	</ul>
+	          	</li>
+	 						<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">RH <b class="caret"></b></a>
+	            	<ul class="dropdown-menu" id="swatch-menu">
+	              	<li><a href="{{ path('affectation') }}"> Mon staff </a></li>
+								  <li><a href="{{ path('employeclasse') }}"> Affectations </a></li>
+								  <li><a href="{{ path('employeabsence') }}"> Absences </a></li>
+	            	</ul>
+	          	</li>
+							<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion des enfants <b class="caret"></b></a>
+	            	<ul class="dropdown-menu" id="swatch-menu">
+	              	<li><a href="{{ path('enfant') }}"> Mes enfants </a></li>
+									<li><a href="{{ path('enfantclasse') }}"> Affectations au classes </a></li>
+									<li><a href="{{ path('employeabsence') }}"> Absences </a></li>
+	            	</ul>
+	          	</li>
+							<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion des paiements <b class="caret"></b></a>
+	            	<ul class="dropdown-menu" id="swatch-menu">
+	              	<li><a href="{{ path('employeabsence') }}"> Simulateur de paiement </a></li>
+									<li><a href="{{ path('employeabsence') }}"> Ajouter un paiement </a></li>
+									<li><a href="{{ path('employeabsence') }}"> Versement Directeur </a></li>
+									<li><a href="{{ path('employeabsence') }}"> Liste des impayés </a></li>
+									<li><a href="{{ path('employeabsence') }}"> Consultation des paiements </a></li>				
+									<li><a href="{{ path('employeabsence') }}"> Etat de banque </a></li>
+									<li><a href="{{ path('employeabsence') }}"> Etat de paiements </a></li>
+	            	</ul>
+	          	</li>
+							<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion des achats <b class="caret"></b></a>
+	            	<ul class="dropdown-menu" id="swatch-menu">
+	              	<li><a href="{{ path('ecolebudget') }}"> Budget </a></li>
+								  <li><a href="{{ path('situationcaisse') }}"> Situation de la caisse </a></li>
+								  <li><a href="{{ path('alimentation') }}"> Etat des alimentations </a></li>
+									<li><a href="{{ path('ecoleachat') }}"> Factures </a></li>
+									<li><a href="{{ path('eauelectricite') }}"> Eau et électricité </a></li>
+									<li><a href="{{ path('bon') }}"> Bons </a></li>
+									<li><a href="{{ path('decharge') }}"> Décharges </a></li>
+	            	</ul>
+	          	</li>
+							<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion des inscriptions <b class="caret"></b></a>
+	            	<ul class="dropdown-menu" id="swatch-menu">
+	              	<li><a href="{{ path('preinscription') }}"> Demande d'inscription </a></li>
+								  <li><a href="{{ path('inscription_new') }}"> Nouvel inscription </a></li>
+								  <li><a href="{{ path('reinscription_new') }}"> Réinscription </a></li>
+								  <li><a href="{{ path('inscription') }}"> Liste des inscrits </a></li>
+								  <li><a href="{{ path('inscription_stats') }}"> Statistique des inscriptions </a></li>
+	            	</ul>
+	          	</li>
+	        	</ul>
+	        	{% endif %}
+	
+	          {% if app.user.employe.fonctionId != 5%}
+						<!--begin admin menu-->
+						<ul class="nav" id="main-menu-left">
+	          	<li class="dropdown">
+	            	<a class="dropdown-toggle" data-toggle="dropdown" href="#">RH <b class="caret"></b></a>
+	          {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_RH') ) %}
+	              <ul class="dropdown-menu" id="swatch-menu">
+						  	  <li><a href="{{ path('user') }}"> Utilisateurs </a></li>
+	            	  <li><a href="{{ path('employe') }}"> Employés </a></li>
+	            	  <li><a href="{{ path('affectation') }}"> Affectations </a></li>
+	            	  <li><a href="{{ path('fonction') }}"> Fonctions </a></li>
+								  <li><a href="{{ path('employeabsence') }}"> Absences </a></li>
+	          {% endif %}
+               
+						{% if is_granted('ROLE_ADMIN') %}
+						      <li><a href="{{ path('ville') }}"> Villes </a></li>
+						{% endif %}
+						    </ul>
+					    </li>
+					    
+	        	{% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_COMPTABILITE') ) %}
+	            <li class="dropdown">
+		            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Comptabilité école <b class="caret"></b></a>
+								<ul class="dropdown-menu" id="swatch-menu">
+							  	<li><a href="{{ path('ecolecaisse') }}"> Caisses </a></li>
+							  	<li><a href="{{ path('alimentation') }}"> Alimentations </a></li>
+							  	<li><a href="{{ path('budget') }}"> Budgets </a></li>
+									<li><a href="{{ path('ecoleachat') }}"> Factures </a></li>
+									<li><a href="{{ path('eauelectricite') }}"> Eau et électricité </a></li>
+									<li><a href="{{ path('bon') }}"> Bons </a></li>
+									<li><a href="{{ path('decharge') }}"> Décharges </a></li>
+								</ul>
+							</li>
+						{% endif %}
+
+						{% if is_granted('ROLE_ADMIN')  %}
+						  <li class="dropdown">
+	              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Autre <b class="caret"></b></a>
+								<ul class="dropdown-menu" id="swatch-menu">
+							    <li><a href="{{ path('actualite') }}"> Actualités </a></li>
+								  <li><a href="{{ path('actualiterubrique') }}"> Rubriques </a></li>
+								  <li><a href="{{ path('attachement') }}"> Attachements </a></li>
+								</ul>
+							</li>
+						{% endif %}
+						  <li class="dropdown">
+	              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ecoles <b class="caret"></b></a>
+						{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_PATRIMOINE') or is_granted('ROLE_COMPTABILITE') )  %}
+						    <ul class="dropdown-menu" id="swatch-menu">
+									<li><a href="{{ path('ecole') }}"> Écoles </a></li>
+							{% endif %}
+							{% if ( is_granted('ROLE_ADMIN')) %}
+									<li><a href="{{ path('section') }}"> Sections </a></li>
+									<li><a href="{{ path('service') }}"> Services </a></li>
+									<li><a href="{{ path('anneescolaire') }}"> Années scolaire</a></li>
+									<li><a href="{{ path('category') }}"> Catégories </a></li>
+									<li><a href="{{ path('offreservice') }}"> Offres de services </a></li>
+									<li><a href="{{ path('reseauprescolaire') }}"> Réseau préscolaire </a></li>
+									<li><a href="{{ path('ecoleclasse') }}"> Ecole classe </a></li>
+									<li><a href="{{ path('moisgratuit') }}"> Mois gratuit </a></li>
+									<li><a href="{{ path('classe') }}"> Classes </a></li>
+									<li><a href="{{ path('employeclasse') }}"> Affectations aux classes </a></li>      
+	            		<li><a href="{{ path('enfant') }}"> Enfants </a></li>
+	            		<li><a href="{{ path('titeur') }}"> Tuteurs </a></li>
+									<li><a href="{{ path('preinscription') }}"> Demande </a></li>
+	            		<li><a href="{{ path('inscription') }}"> Inscriptions </a></li>
+									<li><a href="{{ path('inscriptionoffreservice') }}"> Mensualités </a></li>
+									<li><a href="{{ path('abandant') }}"> Abandants </a></li>
+									<li><a href="{{ path('enfantclasse') }}"> Enfant classe </a></li>
+									<li><a href="{{ path('paiement') }}"> Paiement </a></li>
+									<li><a href="{{ path('versement') }}"> Versement </a></li>
+								</ul>
+							</li>
+					    {% endif %}
+
+			     {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_PATRIMOINE')) %}
+						  <li class="dropdown">
+		            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Patrimoine <b class="caret"></b></a>
+								<ul class="dropdown-menu" id="swatch-menu">
+									<li><a href="{{ path('immobilisation') }}"> Immobilisations </a></li>
+	           			<li><a href="{{ path('partenariat') }}"> Partenariats </a></li>
+	            		<li><a href="{{ path('partenaire') }}"> Partenaires </a></li>
+	            		<li><a href="{{ path('typeengagement') }}"> Types d'engagement </a></li>
+	            		<li><a href="{{ path('typecontribution') }}"> Périodicités </a></li>
+	            		<li><a href="{{ path('contact') }}"> Contacts </a></li>
+	            		<li><a href="{{ path('partenariatpartenaire') }}"> Parteniats partenaires </a></li>
+	            		<li><a href="{{ path('gestionpartenariat') }}"> Chargés du partenariat </a></li>
+	            		<li><a href="{{ path('suiviargpart') }}"> Contributions reçues </a></li>
+	            		<li><a href="{{ path('document') }}"> Documents </a></li>
+	            		<li><a href="{{ path('typedocument') }}"> Types document </a></li>
+								</ul>
+							</li>
+	         {% endif %}
+
+	         {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_AL')) %}
+						  <li class="dropdown">
+		            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Achat et Logistique <b class="caret"></b></a>
+								<ul class="dropdown-menu" id="swatch-menu">
+	            		<li><a href="{{ path('boncommande') }}"> Bons de commande </a></li>
+	            		<li><a href="{{ path('article') }}"> Articles </a></li>
+	            		<li><a href="{{ path('articleboncommande') }}">Article Bon de commande </a></li>
+	            		<li><a href="{{ path('bonlivraison') }}"> Bons de livraison </a></li>
+	            		<li><a href="{{ path('fournisseur') }}"> Fournisseurs </a></li>
+	            		<li><a href="{{ path('facture') }}"> Factures </a></li>
+	            		<li><a href="{{ path('devis') }}"> Devis </a></li>
+	            		<li><a href="{{ path('rubrique') }}"> Rubriques </a></li>
+								</ul>
+							</li>
+	         {% endif %}
+	         </ul>
+						<!--End admin menu-->
+						{% endif %}
+	
+	          <ul class="nav pull-right" id="main-menu-right">
+	          	<li class="dropdown">
+	            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mon compte <b class="caret"></b></a>
+	              <ul class="dropdown-menu" id="swatch-menu">
+	              <li><a href="{{ path('fos_user_change_password') }}"> Changer mot de passe </a></li>
+								<li><a href="{{ path('employe_edit', { 'id': app.user.employeId }) }}"> Modifier mon profile </a></li>
+                <li><a href="{{ path('fos_user_security_logout') }}"> Déconnexion </a></li>
+	            </ul>
+	            </li>
+	          </ul>
+	          
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+    <div class="container" style="margin-top:40px">
+	    <div class="row"><div class="span12">
+      <div id="notice">
+        {% if app.session.flash('notice') %}
+        <div class="flash notice">{{ app.session.flash('notice') }}</div>
+        {% endif %}
+
+        {% if app.session.flash('error') %}
+        <div class="flash error">{{ app.session.flash('error') }} </div>
+        {% endif %}
+      </div>
+           
+      {% block body %}
+      {% endblock %}
+      </div></div>
+      <footer class="footer">
+				<div class="container">
+					<p>&copy; 2012 Fondation Marocaine pour la Promotion de l'enseignement préScolaire</p>
+			  </div>
+			</footer>
+    </div>
+
+	  {% block javascripts %} 
+	  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('js/datepicker/js/bootstrap-datepicker.js') }}"></script>
+		<script src="{{ asset('js/common.js') }}"></script>
+		<script>
+		$('.date').datepicker();
+		</script>
+    {% endblock %}
+		<!-- Modal -->
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  
+		  <div class="modal-body">
+		     
+		  </div>
+
+		</div> 
+    </body>
+</html>

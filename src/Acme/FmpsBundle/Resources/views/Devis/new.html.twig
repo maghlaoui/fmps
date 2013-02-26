@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Ajouter un devis</h3>
+
+<form action="{{ path('devis_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn">Ajouter</button>
+        <select name="retour">
+            <option value="1">Ajouter un autre devis</option>
+            <option value="0">Retourner à la page du bon de commande</option>
+            <option value="2">Retourner à la liste des devis</option>
+        </select>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('devis') }}">
+           <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+
+
+{% endblock %}

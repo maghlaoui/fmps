@@ -1,0 +1,77 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Classe</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+        <tr>
+            <th>Année scolaire</th>
+            <td>{{ entity.anneeScolaire }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nomClasse }}</td>
+        </tr>
+        <tr>
+            <th>Nombre de places</th>
+            <td>{{ entity.nombrePlace }}</td>
+        </tr>
+    </tbody>
+</table>
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('classe') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('classe_edit', { 'id': entity.id }) }}">
+            <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('classe_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+<h3>Staff</h3>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Nom</th>
+						<th>Langue</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for educateur in educateurs %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('employe_show', { 'id': educateur.employeId }) }}">{{ educateur.employe }}</a></td>
+						<td>{{ educateur.languesStr }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h3>Enfants</h3>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Nom</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for enfant in enfants %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('enfant_show', { 'id': enfant.enfantId }) }}">{{ enfant.enfantId }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

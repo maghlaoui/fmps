@@ -1,0 +1,78 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Décharge</h3>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Ecole</th>
+            <td>{{ entity.ecole }}</td>
+        </tr>
+				<tr>
+            <th>Budget</th>
+            <td>{{ entity.budget }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+				<tr>
+            <th>Prénom</th>
+            <td>{{ entity.prenom }}</td>
+        </tr>
+				<tr>
+            <th>Cin</th>
+            <td>{{ entity.cin }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{% if entity.date %}{{ entity.date|date('Y-m-d') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Objet</th>
+            <td>{{ entity.objet }}</td>
+        </tr>
+        <tr>
+            <th>Nature de dépense</th>
+            <td>{{ entity.natureDepense}}</td>
+        </tr>
+        <tr>
+            <th>montant</th>
+            <td>{{ entity.montant}}</td>
+        </tr>
+        <tr>
+            <th>Date Paiement</th>
+            <td>{% if entity.datePaiement %}{{ entity.datePaiement|date('Y-m-d') }}{% endif %}</td>
+        </tr>
+{% if entity.path %}
+        <tr>
+            <th>Attachement</th>
+        <td><a href="{{ asset(entity.webPath) }}" target="_blank">Télécharger</a></td>
+        </tr>
+{% endif%}
+    </tbody>
+</table>
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('decharge') }}">
+             <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('decharge_edit', { 'id': entity.id }) }}">
+             <span class="edit">Editer</span>
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('decharge_delete', { 'id': entity.id }) }}" method="post">
+         {{ form_widget(delete_form) }}
+             <button type="submit" class="btn btn-danger" data-confirm="êtes vous sûre de vouloir supprimer?"><i class="icon-trash icon-white"></i> Supprimer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

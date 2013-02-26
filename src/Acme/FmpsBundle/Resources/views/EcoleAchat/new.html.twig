@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Ajouter une facture</h3>
+<script type="text/javascript">
+  $(function() {
+
+$('.t').hide();
+$('#{{ form.numeroCheque.get('id') }}').attr('disabled', true);
+$('#{{ form.numeroCheque.get('id') }}').hide();
+				         $('select#{{ form.modePayement.get('id') }}').change(function(){
+
+var d=$('select#{{ form.modePayement.get('id') }}').val();
+if(d=='Espèce'){
+$('.t').hide();
+$('#{{ form.numeroCheque.get('id') }}').attr('disabled', true);
+$('#{{ form.numeroCheque.get('id') }}').hide();
+}else if(d==''){
+$('.t').hide();
+$('#{{ form.numeroCheque.get('id') }}').attr('disabled', true);
+$('#{{ form.numeroCheque.get('id') }}').hide();
+}
+else{
+$('.t').show();
+$('#{{ form.numeroCheque.get('id') }}').attr('disabled', false).attr('required',true);
+$('#{{ form.numeroCheque.get('id') }}').show();
+}
+
+});});
+</script>
+<form action="{{ path('ecoleachat_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="btn">Créer</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+       <a href="{{ path('ecoleachat') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

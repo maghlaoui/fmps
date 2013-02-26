@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AchatEcole" table="achat_ecole">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="caisseEcoleId" type="integer" column="caisse_ecole_id"/>
+    <field name="modePaiement" type="string" column="mode_paiement" length="125"/>
+    <field name="numeroCheque" type="string" column="numero_cheque" length="125"/>
+    <field name="date" type="date" column="date"/>
+    <field name="objet" type="string" column="objet"/>
+    <field name="montant" type="float" column="montant"/>
+    <field name="fournisseur" type="string" column="fournisseur" length="125"/>
+    <field name="rubriqueId" type="integer" column="rubrique_id"/>
+    <field name="numFacture" type="string" column="num_facture" length="125"/>
+    <field name="etatFacture" type="string" column="etat_facture" length="125"/>
+    <field name="datePaiementFacture" type="date" column="date_paiement_facture"/>
+    <field name="cloturerFacture" type="boolean" column="cloturer_facture"/>
+    <field name="fichier" type="string" column="fichier" length="125"/>
+    <field name="path" type="string" column="path" length="125"/>
+		<field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+    <lifecycle-callbacks/>
+  </entity>
+</doctrine-mapping>

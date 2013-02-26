@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter une fonction</h1>
+
+<form action="{{ path('employefonction_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_row(form._token) }} 
+  <div>
+	    {{ form_label(form.employe) }}
+	    {{ form_widget(form.employe) }}
+	</div>
+	
+	<div>
+	    {{ form_label(form.fonction) }}
+	    {{ form_widget(form.fonction) }}
+	    <a href="#content-div" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter une fonction</span></a>
+	</div>
+	
+	<div>
+	    {{ form_label(form.dateDebutFonction) }}
+	    {{ form_widget(form.dateDebutFonction) }}
+	</div>
+	
+	<div>
+	    {{ form_label(form.dateFinFonction) }}
+	    {{ form_widget(form.dateFinFonction) }}
+	</div>
+	
+    <p>
+        <button type="submit">Créer</button>
+        <select name="retour">
+            <option value="0">Retourner à la page de l'employé</option>
+            <option value="1">Retourner à la liste des fonctions</option>
+        </select>
+    </p>
+</form>
+
+<div id="content-div" style="display: none">
+	<h1>Ajouter une fonction</h1>
+  <div class="flash error invisible" id="ajax_error"></div>
+	<form action="{{ path('fonction_create') }}" class="ajax_form" method="post" {{ form_enctype(fonction_form) }}>
+    {{ form_widget(fonction_form) }}
+    <input type="hidden" name="dom_id" value="employe_fonction_fonction" />
+    <p>
+        <button type="submit" id="ajax_submit">Créer</button>
+    </p>
+	</form>
+
+</div>
+
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('employefonction') }}">
+           <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

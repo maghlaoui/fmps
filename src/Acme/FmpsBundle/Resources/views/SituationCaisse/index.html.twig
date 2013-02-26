@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Situation de caisse</h3>
+
+<div class="pull-right">
+    <a href="{{ path('situationcaisse_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Cloturer un mois</span>
+    </a>
+</div>
+
+<form action="{{ path('ecoleachat') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+      <tr>
+         <td>{{ form_label(form.ecole) }}</td>
+         <td>{{ form_label(form.mois) }}</td>
+			   <td>{{ form_label(form.annee) }}</td>
+         <td></td>
+       </tr>
+       <tr>
+          <td>{{ form_widget(form.ecole) }}</td>
+          <td>{{ form_widget(form.mois) }}</td>
+          <td>{{ form_widget(form.annee) }}</td>
+          <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{{ entities.sortable('Id', 's.id')|raw }}</th>
+            <th>{{ entities.sortable('Ecole', 's.ecoleId')|raw }}</th>
+            <th>{{ entities.sortable('Année', 's.annee')|raw }}</th>
+            <th>{{ entities.sortable('Mois', 's.mois')|raw }}</th>
+            <th>{{ entities.sortable('Solde initiale', 's.soldeInitiale')|raw }}</th>
+            <th>{{ entities.sortable('Total des alimentations', 's.totalAlimentation')|raw }}</th>
+            <th>{{ entities.sortable('Total des achats', 's.totalAchat')|raw }}</th>
+            <th>{{ entities.sortable('SoldeFinale', 's.soldeFinale')|raw }}</th>
+						<th>{{ entities.sortable('Cloture', 's.cloture')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('ecoleachat_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.ecole }}</td>
+            <td>{{ entity.annee }}</td>
+            <td>{{ entity.mois }}</td>
+            <td>{{ entity.soldeInitiale|number_format(2, '.', ' ') }}</td>
+            <td>{{ entity.totalAlimentation|number_format(2, '.', ' ') }}</td>
+            <td>{{ entity.totalAchat|number_format(2, '.', ' ') }}</td>
+            <td>{{ entity.soldeFinale|number_format(2, '.', ' ') }}</td>
+						<td>{% if entity.cloture == 1 %}
+						<img src="{{ asset('bundles/acmefmps/images/checked.gif') }}" alt="Reçu" titme="Réception validée" />
+						{% else %}
+						<img src="{{ asset('bundles/acmefmps/images/notchecked.gif') }}" alt="Reçu" titme="Réception validée" />
+						{% endif %}</td>
+            <td>
+                <ul>
+                     <li><a href="{{ path('situationcaisse_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+	                    <li><a href="{{ path('situationcaisse_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

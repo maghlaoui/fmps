@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des partenaires</h3>
+
+<div class="pull-right">
+    <a href="{{ path('partenaire_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter un partenaire</span>
+    </a>
+</div>
+
+<form action="{{ path('partenaire') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.nomPartenaire) }}</td>
+            <td>{{ form_label(form.adressePartenaire) }}</td>
+            <td>{{ form_label(form.tel1Partenaire) }}</td>
+            <td>{{ form_label(form.mailPartenaire) }}</td>
+            <td>{{ form_label(form.ville) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.nomPartenaire) }}</td>
+            <td>{{ form_widget(form.adressePartenaire) }}</td>
+            <td>{{ form_widget(form.tel1Partenaire) }}</td>
+            <td>{{ form_widget(form.mailPartenaire) }}</td>
+            <td>{{ form_widget(form.ville) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucun partenaire n'a été trouvé</div>
+{% else %}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">{{ entities.sortable('Id', 'p.id')|raw }}</th>
+            <th>{{ entities.sortable('Nom', 'p.nomPartenaire')|raw }}</th>
+            <th>{{ entities.sortable('Adresse', 'p.adressePartenaire')|raw }}</th>
+            <th>{{ entities.sortable('Tél.', 'p.tel1Partenaire')|raw }}</th>
+            <th>{{ entities.sortable('Email', 'p.mailPartenaire')|raw }}</th>
+            <th>{{ entities.sortable('Ville', 'p.villeId')|raw }}</th>
+            <th width="150">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('partenaire_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.nomPartenaire }}</td>
+            <td>{{ entity.adressePartenaire }}</td>
+            <td>{{ entity.tel1Partenaire }}</td>
+            <td>{{ entity.mailPartenaire }}</td>
+            <td><a href="{{ path('ville_show', { 'id': entity.villeId }) }}">{{ entity.ville }}</a></td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('partenaire_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('partenaire_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+<fieldset>
+  {% if legend is defined %}<legend>{{ legend}}</legend>{% endif %}
+
+  <p>{{ form_widget(form) }}</p>
+</fieldset>
+
+{% include "ClubLayoutBundle:Default:submit_button.html.twig" %}

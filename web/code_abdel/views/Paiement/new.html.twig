@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter un paiement</h1>
+
+
+
+<form action="{{ path('paiement_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Valider</button>
+    </p>
+</form>
+
+{% endblock %}

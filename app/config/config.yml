@@ -1,0 +1,139 @@
+imports:
+    - { resource: parameters.ini }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %locale% }
+    secret:          %secret%
+    charset:         UTF-8
+    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    session:
+        default_locale: %locale%
+        auto_start:     true
+    esi: { enabled: true }
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    form:
+        resources:
+            - ShtumiUsefulBundle::fields.html.twig
+            - AcmeFmpsBundle:Form:fields.html.twig
+            #- AcmeFmpsBundle:Form:form_row.html.twig
+            #- AcmeFmpsBundle:Form:form_div_layout.html.twig
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    # java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        # closure:
+        #     jar: %kernel.root_dir%/java/compiler.jar
+        # yui_css:
+        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+        #metadata_cache_driver: apc
+        #query_cache_driver: apc
+        #result_cache_driver:
+        #type: memcache
+        #host: localhost
+        #port: 1234
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+
+jms_security_extra:
+    secure_controllers:  true
+    secure_all_services: false
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Acme\FmpsBundle\Entity\User
+    registration:
+        form:
+            type: acme_user_registration
+      
+shtumi_useful:
+    autocomplete_entities:
+        articles:
+            class: AcmeFmpsBundle:Article
+            #role: ROLE_ADMIN, ROLE_AL
+            property: designation
+            search: contains
+        type_engagement:
+            class: AcmeFmpsBundle:TypeEngagement
+            #role: ROLE_ADMIN, ROLE_AL, ROLE_PATRIMOINE
+            property: libelleTypeEngagement
+            search: contains
+        type_contribution:
+            class: AcmeFmpsBundle:TypeContribution
+            #role: ROLE_ADMIN, ROLE_AL, ROLE_PATRIMOINE
+            property: libelleTypeContribution
+            search: contains
+      
+services:
+    acme_fmps.twig.extension.debug:
+        class:        Twig_Extension_Debug
+        tags:
+             - { name: 'twig.extension' }
+    acme.fmpsbundle.listener.request:
+        class: Acme\FmpsBundle\RequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    bcc.twig.extension:
+        class: BCC\ExtraToolsBundle\Twig\TwigExtension
+        tags:
+            -  { name: twig.extension }
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+                   
+monolog:
+    handlers:
+        applog:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        main:
+            type: fingers_crossed
+            action_level: warning
+            handler: file
+        file:
+            type: stream
+            level: debug
+        syslog:
+            type: syslog
+            level: error
+            
+knp_paginator:                # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: AcmeFmpsBundle:Pagination:sliding.html.twig     # sliding pagination controls template
+        sortable: AcmeFmpsBundle:Pagination:sortable_link.html.twig # sort link template 

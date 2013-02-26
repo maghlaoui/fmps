@@ -1,0 +1,67 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h3>Liste des fonctions par employé</h3>
+
+<div class="pull-right">
+    <a href="{{ path('employefonction_new') }}">
+        <span><i class="icon-plus-sign icon-white"></i> Ajouter une fonction à un employé</span>
+    </a>
+</div>
+
+<form action="{{ path('employefonction') }}" method="get" {{ form_enctype(form) }}>
+    <table id="search">
+        <tr>
+            <td>{{ form_label(form.fonction) }}</td>
+            <td>{{ form_label(form.dateDebutFonction) }}</td>
+            <td>{{ form_label(form.dateFinFonction) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form_widget(form.fonction) }}</td>
+            <td>{{ form_widget(form.dateDebutFonction) }}</td>
+            <td>{{ form_widget(form.dateFinFonction) }}</td>
+            <td class="pb10"><button type="submit" class="btn">Rechercher</button></td>
+        </tr>
+    </table>
+</form>
+
+{% if entities.count == 0 %}
+    <div class="flash notice">Désolé. Aucune fonction n'a été trouvée</div>
+{% else %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th width="25">{{ entities.sortable('Id', 'ef.id')|raw }}</th>
+            <th>{{ entities.sortable('Employé', 'ef.employeId')|raw }}</th>
+            <th>{{ entities.sortable('Fonction', 'ef.fonctionId')|raw }}</th>
+            <th>{{ entities.sortable('Date de début', 'ef.dateDebutFonction')|raw }}</th>
+            <th>{{ entities.sortable("Date de fin", 'ef.dateFinFonction')|raw }}</th>
+            <th width="280">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <td><a href="{{ path('affectation_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a href="{{ path('employe_show', { 'id': entity.employeId }) }}">{{ entity.employe }}</a></td>
+            <td><a href="{{ path('fonction_show', { 'id': entity.fonctionId }) }}">{{ entity.fonction }}</a></td>
+            <td>{% if entity.dateDebutFonction %}{{ entity.dateDebutFonction|date('d-m-Y') }}{% endif%}</td>
+            <td>{% if entity.dateFinFonction %}{{ entity.dateFinFonction|date('d-m-Y') }}{% endif%}</td>
+            <td>
+                <ul>
+                    <li><a href="{{ path('employefonction_show', { 'id': entity.id }) }}"><span class="detail">Détail</span></a></li>
+                    <li><a href="{{ path('employefonction_edit', { 'id': entity.id }) }}"><span class="edit">Editer</span></a></li>
+                    <li><a href="{{ path('employefonction_delete', { 'id': entity.id }) }}" rel="nofollow" data-method="post" data-remote="true" data-confirm="êtes vous sûre?" class="delete_entity"><span class="delete">Supprimer</span></a></li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="navigation">
+    {{ entities.render()|raw }}
+</div>
+{% endif %}
+{% endblock %}

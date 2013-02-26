@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<h1>Ajouter chargé du partenariat</h1>
+
+<form action="{{ path('gestionpartenariat_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_row(form._token) }} 
+	
+		<div>
+			{{ form_label(form.partenariat) }}
+			{{ form_widget(form.partenariat) }}
+		</div>
+
+		<div>
+			{{ form_label(form.contact) }}
+			{{ form_widget(form.contact) }}
+			<a href="#content-div" class="fancybox"><span><i class="icon-plus-sign icon-white"></i> Ajouter un contact</span></a>
+		</div>
+		
+		<div>
+			{{ form_label(form.dateAffectationGestion) }}
+			{{ form_widget(form.dateAffectationGestion) }}
+		</div>
+		
+		<div>
+			{{ form_label(form.dateFinAffectationGestion) }}
+			{{ form_widget(form.dateFinAffectationGestion) }}
+		</div>
+		
+    <p>
+        <button type="submit">Créer</button>
+    </p>
+</form>
+
+<div id="content-div" style="display: none">
+	<h1>Ajouter un contact</h1>
+  <div class="flash error invisible" id="ajax_error"></div>
+	<form action="{{ path('contact_create') }}" class="ajax_form" method="post" {{ form_enctype(contact_form) }}>
+    {{ form_widget(contact_form) }}
+    <p>
+        <button type="submit" id="ajax_submit">Créer</button>
+    </p>
+	</form>
+
+</div>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('gestionpartenariat') }}">
+            <span class="back">Retour &agrave; la liste</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}

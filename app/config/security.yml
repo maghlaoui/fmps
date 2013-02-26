@@ -1,0 +1,75 @@
+security:
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                always_use_default_target_path: true
+            logout:       true
+            anonymous:    true
+            remember_me:
+              key:      "%secret%"
+              lifetime: 3600
+              path:     /
+              domain:   ~ # Defaults to the current domain from $_SERVER
+            form_login:
+              use_referer:        false
+              always_use_default_target_path: true
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/bons_commande, roles: ROLE_AL }
+        - { path: ^/articles, roles: ROLE_AL }
+        - { path: ^/bons_livraison, roles: ROLE_AL }
+        - { path: ^/budgets, roles: ROLE_AL }
+        - { path: ^/fournisseurs, roles: ROLE_AL }
+        - { path: ^/factures, roles: ROLE_AL }
+        - { path: ^/devis, roles: ROLE_AL }
+        - { path: ^/rubriques, roles: ROLE_AL }
+        - { path: ^/article_bon_commande, roles: ROLE_AL }
+        - { path: ^/partenariats, roles: ROLE_PATRIMOINE }
+        - { path: ^/partenaires, roles: ROLE_PATRIMOINE }
+        - { path: ^/types_engagements, roles: ROLE_PATRIMOINE }
+        - { path: ^/periodicites, roles: ROLE_PATRIMOINE }
+        - { path: ^/contact, roles: ROLE_PATRIMOINE }
+        - { path: ^/partenariat_partenaire, roles: ROLE_PATRIMOINE }
+        - { path: ^/gestion_partenariat, roles: ROLE_PATRIMOINE }
+        - { path: ^/contributions, roles: ROLE_PATRIMOINE }
+        - { path: ^/documents, roles: ROLE_PATRIMOINE }
+        - { path: ^/types_document, roles: ROLE_PATRIMOINE }
+        - { path: ^/immobilisations, roles: ROLE_PATRIMOINE }
+        - { path: ^/ecoles, roles: [ROLE_PATRIMOINE,ROLE_DIRECTEUR] }
+        - { path: ^/bons_commande, roles: ROLE_PATRIMOINE }
+        - { path: ^/offres_service, roles: ROLE_DIRECTEUR }
+        - { path: ^/classes, roles: ROLE_DIRECTEUR }
+        - { path: ^/employe_classes, roles: ROLE_DIRECTEUR }
+        - { path: ^/enfants, roles: ROLE_DIRECTEUR }
+        - { path: ^/tuteurs, roles: ROLE_DIRECTEUR }
+        - { path: ^/inscriptions, roles: ROLE_DIRECTEUR }
+        - { path: ^/inscription_offres_service, roles: ROLE_DIRECTEUR }
+        - { path: ^/enfants_classes, roles: ROLE_DIRECTEUR }
+        - { path: ^/paiements, roles: ROLE_DIRECTEUR }
+        - { path: ^/versements, roles: ROLE_DIRECTEUR }
+        - { path: ^/ecole_budgets, roles: ROLE_DIRECTEUR }
+        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/users, roles: [ROLE_SUPER_ADMIN, ROLE_DRH] }
+        - { path: ^/employes, roles: [ROLE_SUPER_ADMIN, ROLE_DRH] }
+        - { path: ^/ville, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/fonctions, roles: ROLE_SUPER_ADMIN }
+        
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+        ROLE_ADMIN: [ROLE_AL,ROLE_PATRIMOINE,ROLE_DIRECTEUR]
+    access_denied_url: /unauthorized

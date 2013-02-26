@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ArticleBonCommande" table="article_bon_commande">
+    <change-tracking-policy>DEFERRED_IMPLICIT</change-tracking-policy>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="articleId" type="integer" column="article_id"/>
+    <field name="bonCommandeId" type="integer" column="bon_commande_id"/>
+    <field name="prixUnitaire" type="decimal" column="prix_unitaire"/>
+    <field name="quantite" type="float" column="quantite"/>
+    <field name="unite" type="string" column="unite"/>
+    <field name="tva" type="float" column="tva"/>
+    <field name="userId" type="integer" column="user_id"/>
+   	<field name="createdAt" column="created_at" type="datetime" />
+    <field name="updatedAt" column="updated_at" type="datetime" />
+  </entity>
+</doctrine-mapping>
